@@ -501,8 +501,8 @@
       <input type="text" placeholder="Название региона" id="region" name="region" size="20"><br><br>
       <div id="search_box-region-result"></div>
 
-      <input type="text" style="display:none;" value="' . $name . '" name="competence">
-      <input type="text" style="display:none;" value="' . $competence . '" name="competence">
+      <input type="text" style="display:none;" value="' . $name . '" name="name">
+      <input type="text" style="display:none;" value="' . $competency . '" name="competency">
       <input type="text" style="display:none;" value="' . $country . '" name="country">
       <input type="text" style="display:none;" value="' . $priority . '" name="priority">
 
