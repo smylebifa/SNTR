@@ -31,25 +31,25 @@
 
 
               // Getting params from user entering in form...
-    $competence_dev = $_GET['competence_dev'];
-    $competence_apply = $_GET['competence_apply'];
-    $competence_service = $_GET['competence_service'];
+    $code_of_competency_dev = $_GET['code_of_competency_dev'];
+    $code_of_competency_apply = $_GET['code_of_competency_apply'];
+    $code_of_competency_service = $_GET['code_of_competency_service'];
 
               // Sql injection protection...
-    sanitize_text_field($competence_dev);
-    sanitize_text_field($competence_apply);
-    sanitize_text_field($competence_service);
+    sanitize_text_field($code_of_competency_dev);
+    sanitize_text_field($code_of_competency_apply);
+    sanitize_text_field($code_of_competency_service);
 
 
         // Проверяем, заполнил ли пользователь какие-нибудь поля...
     $is_show = 1;
 
-    if ($competence_dev === '') {
+    if ($code_of_competency_dev === '') {
 
-      if ($competence_apply === '') {
+      if ($code_of_competency_apply === '') {
 
                     // Ничего не было введено...
-        if ($competence_service === '') {
+        if ($code_of_competency_service === '') {
           $is_show = 0;
           echo '<p class="h4" align="center"><br><br><br><br>Вы не ввели ничего для поиска</p>';
         }
@@ -65,7 +65,7 @@
 
             INNER JOIN ОквэдВЧастиПредоставленияУслуг
             ON КодыКомпетенций.КодКомпетенции = ОквэдВЧастиПредоставленияУслуг.КодКомпетенции
-            WHERE КодыКомпетенций.КодКомпетенции = %s", $competence_service));
+            WHERE КодыКомпетенций.КодКомпетенции = %s", $code_of_competency_service));
         }
 
       }
@@ -74,7 +74,7 @@
       else {
 
               // 010
-        if ($competence_service === '') 
+        if ($code_of_competency_service === '') 
         {
           $sql_select = $wpdb->get_results($wpdb->prepare("
             SELECT DISTINCT ЦентрыКомпетенций.НазваниеЦентра, ЦентрыКомпетенций.Страна, ЦентрыКомпетенций.НазваниеКомпетенции, КодыКомпетенций.КодКомпетенции
@@ -85,7 +85,7 @@
 
             INNER JOIN ОквэдВЧастиПрименения
             ON КодыКомпетенций.КодКомпетенции = ОквэдВЧастиПрименения.КодКомпетенции
-            WHERE КодыКомпетенций.КодКомпетенции = %s", $competence_apply));
+            WHERE КодыКомпетенций.КодКомпетенции = %s", $code_of_competency_apply));
         }
 
               // 011
@@ -103,7 +103,7 @@
           INNER JOIN ОквэдВЧастиПредоставленияУслуг
           ON КодыКомпетенций.КодКомпетенции = ОквэдВЧастиПредоставленияУслуг.КодКомпетенции
           WHERE КодыКомпетенций.КодКомпетенции = %s
-          AND КодыКомпетенций.КодКомпетенции = %s", [$competence_service, $competence_apply]));
+          AND КодыКомпетенций.КодКомпетенции = %s", [$code_of_competency_service, $code_of_competency_apply]));
        }
 
      }
@@ -113,10 +113,10 @@
           // 100
    else {
 
-    if ($competence_apply === '') {
+    if ($code_of_competency_apply === '') {
 
               // Ничего не было введено...
-      if ($competence_service === '') {
+      if ($code_of_competency_service === '') {
         $sql_select = $wpdb->get_results($wpdb->prepare("
           SELECT DISTINCT ЦентрыКомпетенций.НазваниеЦентра, ЦентрыКомпетенций.Страна, ЦентрыКомпетенций.НазваниеКомпетенции, КодыКомпетенций.КодКомпетенции
           FROM ЦентрыКомпетенций
@@ -126,7 +126,7 @@
 
           INNER JOIN ОквэдВЧастиРазработки
           ON КодыКомпетенций.КодКомпетенции = ОквэдВЧастиРазработки.КодКомпетенции
-          WHERE КодыКомпетенций.КодКомпетенции = %s", $competence_dev));
+          WHERE КодыКомпетенций.КодКомпетенции = %s", $code_of_competency_dev));
       }
 
               // 101
@@ -143,7 +143,7 @@
           INNER JOIN ОквэдВЧастиПредоставленияУслуг
           ON КодыКомпетенций.КодКомпетенции = ОквэдВЧастиПредоставленияУслуг.КодКомпетенции
           WHERE КодыКомпетенций.КодКомпетенции = %s
-          AND КодыКомпетенций.КодКомпетенции = %s", [$competence_dev, $competence_service]));
+          AND КодыКомпетенций.КодКомпетенции = %s", [$code_of_competency_dev, $code_of_competency_service]));
       }
 
     }
@@ -152,7 +152,7 @@
     else {
 
               // 110
-      if ($competence_service === '') 
+      if ($code_of_competency_service === '') 
       {
         $sql_select = $wpdb->get_results($wpdb->prepare("
           SELECT DISTINCT ЦентрыКомпетенций.НазваниеЦентра, ЦентрыКомпетенций.Страна, ЦентрыКомпетенций.НазваниеКомпетенции, КодыКомпетенций.КодКомпетенции
@@ -166,7 +166,7 @@
           INNER JOIN ОквэдВЧастиПрименения
           ON КодыКомпетенций.КодКомпетенции = ОквэдВЧастиПрименения.КодКомпетенции
           WHERE КодыКомпетенций.КодКомпетенции = %s
-          AND КодыКомпетенций.КодКомпетенции = %s", [$competence_dev, $competence_apply]));
+          AND КодыКомпетенций.КодКомпетенции = %s", [$code_of_competency_dev, $code_of_competency_apply]));
       }
 
               // 111
@@ -187,7 +187,7 @@
           ON КодыКомпетенций.КодКомпетенции = ОквэдВЧастиПредоставленияУслуг.КодКомпетенции
           WHERE КодыКомпетенций.КодКомпетенции = %s
           AND КодыКомпетенций.КодКомпетенции = %s
-          AND КодыКомпетенций.КодКомпетенции = %s", [$competence_dev, $competence_apply, $competence_service]));
+          AND КодыКомпетенций.КодКомпетенции = %s", [$code_of_competency_dev, $code_of_competency_apply, $code_of_competency_service]));
       }
 
     }
@@ -195,10 +195,7 @@
   }
 
 
-
-
-  if ($is_show === 1) {
-
+  if ($is_show === 1 and $sql_select) {
 
     echo '
     <div class="row">
@@ -214,11 +211,6 @@
     <label for="region_label">Регион:</label><br>
     <input type="text" placeholder="Название региона" id="region" name="region" size="20"><br><br>
     <div id="search_box-region-result"></div>
-    
-    <input type="text" style="display:none;" value="' . $name . '" name="name">
-    <input type="text" style="display:none;" value="' . $competence . '" name="competence">
-    <input type="text" style="display:none;" value="' . $country . '" name="country">
-    <input type="text" style="display:none;" value="' . $priority . '" name="priority">
     
     
     <input id="submit" type="submit" value="Найти и вывести" style="
@@ -298,58 +290,61 @@
     <tbody>';
 
 
+
     foreach ($sql_select as $row) {
       echo '<tr> 
-      <td> <a href="/compet_choose.php?name=' . $row->НазваниеЦентра . '&competency=&country=&priority=">' . $row->НазваниеЦентра . '</a></td>
-      <td> <a href="/compet_choose.php?name=&country=' . $row->Страна . '&competency=&priority=">' . $row->Страна . '</a></td>
-      <td> <a href="/compet_choose.php?name=&country=&competency=' . $row->НазваниеКомпетенции . '&priority=">' . $row->НазваниеКомпетенции . '</a></td></tr>';
+      <td> <a href="/info_about_centers.php?name_of_center=' . $row->НазваниеЦентра . '">' . $row->НазваниеЦентра . '</a></td>
+      <td> <a href="/centers_of_competence.php?country=' . $row->Страна . '&name_of_competency=&priority=">' . $row->Страна . '</a></td>
+      <td> <a href="/centers_of_competence.php?country=&name_of_competency=' . $row->НазваниеКомпетенции . '&priority=">' . $row->НазваниеКомпетенции . '</a></td></tr>';
     }
 
+    echo '
+    </tbody>
+    </table>
+    </figure>
+    </div>
+    </div>
+    </div>';
+  }
+
+  else {
+    echo '<p class="h4" align="center"><br><br><br><br>Записей не найдено</p>';
   }
 
   ?>
 
-  
-</tbody>
-</table>
-</figure>
-</div>
-</div>
-</div>
-
-
-<div class="row">
-  <div class="col-12"><p></p></div>
-</div>
-
-<div class="row">
-  <div class="col-12"><p></p></div>
-</div>
-
-<div class="row">
-  <div class="col-3"></div>
-  <div class="col-6" style="text-align:center">
-    <a href="/search-centers" role="button" style="
-    text-decoration: none;
-    background: #ff6a3e;
-    border: medium none;
-    color: #fff;
-    border-radius: 50px;
-    font-size: 15px;
-    line-height: 1.5;
-    padding: 12px 25px;
-    text-transform: uppercase;
-    font-weight: 500; font: inherit; cursor: pointer;">Поиск центров компетенций</a>
+  <div class="row">
+    <div class="col-12"><p></p></div>
   </div>
-  <div class="col-3"></div>
-</div>
 
-<div class="row">
-  <div class="col-12"><p><br><br></p></div>
-</div>
+  <div class="row">
+    <div class="col-12"><p></p></div>
+  </div>
 
-<script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
-<script src="/tooltip.js"></script>
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col-6" style="text-align:center">
+      <a href="/search-centers" role="button" style="
+      text-decoration: none;
+      background: #ff6a3e;
+      border: medium none;
+      color: #fff;
+      border-radius: 50px;
+      font-size: 15px;
+      line-height: 1.5;
+      padding: 12px 25px;
+      text-transform: uppercase;
+      font-weight: 500; font: inherit; cursor: pointer;">Поиск центров компетенций</a>
+    </div>
+    <div class="col-3"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-12"><p><br><br></p></div>
+  </div>
+
+  <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+  <script src="/tooltip.js"></script>
 
 </body>
 </html>

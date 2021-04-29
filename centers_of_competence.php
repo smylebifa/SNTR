@@ -20,24 +20,22 @@
       
       <?php
 
-    // Подключение файла для обращения к базе данных...
+      // Подключение файла для обращения к базе данных...
       require_once('wp-load.php');
 
       global $wpdb;
 
-    // Метод для отображения ошибки на странице...
-    // $wpdb->show_errors(true);
+      // Метод для отображения ошибки на странице...
+      // $wpdb->show_errors(true);
 
       if(!empty($wpdb->error)) echo 'Не удалось подключиться';
 
-    // Получение параметров...
-      $name_of_center = $_GET['name_of_center'];
+      // Получение параметров...
       $name_of_competency = $_GET['name_of_competency'];
       $country = $_GET['country'];
       $priority = $_GET['priority'];
 
     // Методы для защиты от sql инъекций...
-      sanitize_text_field($name_of_center);
       sanitize_text_field($name_of_competency);
       sanitize_text_field($country);
       sanitize_text_field($priority);
@@ -47,219 +45,108 @@
     // если нет, выводим сообщение...
       $is_show = 1;
 
-      if ($name_of_center  === '') {
+      if ($name_of_competency === '') {
 
-        if ($name_of_competency === '') {
-
-          if ($country === '') {
+        if ($country === '') {
 
           // Ничего не было введено для поиска...
-            if ($priority === '') {
-              $is_show = 0;
-              echo '<p class="h4" align="center"><br><br><br><br>Вы не ввели ничего для поиска</p>';
-            }
+          if ($priority === '') {
+            $is_show = 0;
+            echo '<p class="h4" align="center"><br><br><br><br>Вы не ввели ничего для поиска</p>';
+          }
 
           // 0001
           // Поиск по приоритету...
-            else {
-              $sql_select = $wpdb->get_results($wpdb->prepare("
-                SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
-                FROM ЦентрыКомпетенций
-                WHERE Приоритет = %s", $priority));
-            }
-
+          else {
+            $sql_select = $wpdb->get_results($wpdb->prepare("
+              SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
+              FROM ЦентрыКомпетенций
+              WHERE Приоритет = %s", $priority));
           }
 
+        }
+
         // Поиск по стране...
-          else {
+        else {
 
           // 0010
           // Поиск по стране...
-            if ($priority === '') {
-              $sql_select = $wpdb->get_results($wpdb->prepare("
-                SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
-                FROM ЦентрыКомпетенций
-                WHERE Страна = %s", $country));
-            }
+          if ($priority === '') {
+            $sql_select = $wpdb->get_results($wpdb->prepare("
+              SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
+              FROM ЦентрыКомпетенций
+              WHERE Страна = %s", $country));
+          }
 
           // 0011
           // Поиск по стране, приоритету...
-            else {
-              $sql_select = $wpdb->get_results($wpdb->prepare("
-                SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
-                FROM ЦентрыКомпетенций
-                WHERE Страна = %s 
-                AND Приоритет = %s", [$country, $priority]));
-            }
-
+          else {
+            $sql_select = $wpdb->get_results($wpdb->prepare("
+              SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
+              FROM ЦентрыКомпетенций
+              WHERE Страна = %s 
+              AND Приоритет = %s", [$country, $priority]));
           }
 
         }
 
-      // Поиск по компетенции...
-        else {
+      }
 
-          if ($country === '') {
+      // Поиск по компетенции...
+      else {
+
+        if ($country === '') {
 
           // 0100
           // Поиск по компетенции...
-            if ($priority === '') {
-              $sql_select = $wpdb->get_results($wpdb->prepare("
-                SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
-                FROM ЦентрыКомпетенций
-                WHERE НазваниеКомпетенции = %s", $name_of_competency));
-            }
+          if ($priority === '') {
+            $sql_select = $wpdb->get_results($wpdb->prepare("
+              SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
+              FROM ЦентрыКомпетенций
+              WHERE НазваниеКомпетенции = %s", $name_of_competency));
+          }
 
           // 0101
           // Поиск по компетенции и приоритету...
-            else {
-              $sql_select = $wpdb->get_results($wpdb->prepare("
-                SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
-                FROM ЦентрыКомпетенций 
-                WHERE НазваниеКомпетенции = %s 
-                AND Приоритет = %s", [$name_of_competency, $priority]));
-            }
-
+          else {
+            $sql_select = $wpdb->get_results($wpdb->prepare("
+              SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
+              FROM ЦентрыКомпетенций 
+              WHERE НазваниеКомпетенции = %s 
+              AND Приоритет = %s", [$name_of_competency, $priority]));
           }
 
-          else {
+        }
+
+        else {
 
           // 0110 
           // Поиск по компетенции и стране...
-            if ($priority === '') {
-              $sql_select = $wpdb->get_results($wpdb->prepare("
-                SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
-                FROM ЦентрыКомпетенций 
-                WHERE НазваниеКомпетенции = %s
-                AND Страна = %s", [$name_of_competency, $country]));
-            }
+          if ($priority === '') {
+            $sql_select = $wpdb->get_results($wpdb->prepare("
+              SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
+              FROM ЦентрыКомпетенций 
+              WHERE НазваниеКомпетенции = %s
+              AND Страна = %s", [$name_of_competency, $country]));
+          }
 
           // 0111
           // Поиск по компетенции, стране, приоритету...
-            else {
-              $sql_select = $wpdb->get_results($wpdb->prepare("
-                SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
-                FROM ЦентрыКомпетенций 
-                WHERE НазваниеКомпетенции = %s 
-                AND Страна = %s
-                AND Приоритет = %s", [$name_of_competency, $country, $priority]));
-            }
-
+          else {
+            $sql_select = $wpdb->get_results($wpdb->prepare("
+              SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
+              FROM ЦентрыКомпетенций 
+              WHERE НазваниеКомпетенции = %s 
+              AND Страна = %s
+              AND Приоритет = %s", [$name_of_competency, $country, $priority]));
           }
+
         }
       }
 
-    // Поиск по названию центра...
-      else
-      {
-        if ($name_of_competency === '') {
-
-          if ($country === '') {
-
-          //1000
-          // Поиск по названию центра...
-            if ($priority === '') {
-              $sql_select = $wpdb->get_results($wpdb->prepare("
-                SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
-                FROM ЦентрыКомпетенций
-                WHERE НазваниеЦентра = %s", [$name_of_center]));
-            }
-
-          // 1001
-          // Поиск по названию центра, приоритету...
-            else {
-              $sql_select = $wpdb->get_results($wpdb->prepare("
-                SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
-                FROM ЦентрыКомпетенций
-                WHERE НазваниеЦентра = %s
-                AND Приоритет = %s", [$name_of_center, $priority]));
-            }
-
-          }
-
-        // Поиск по названию центра, стране...
-          else {
-
-          // 1010
-          // Поиск по названию центра, стране...
-            if ($priority === '') {
-              $sql_select = $wpdb->get_results($wpdb->prepare("
-                SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
-                FROM ЦентрыКомпетенций
-                WHERE Страна = %s", [$name_of_center, $country]));
-            }
-
-          // 1011
-          // Поиск по названию центра, стране, приоритету...
-            else {
-              $sql_select = $wpdb->get_results($wpdb->prepare("
-                SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
-                FROM ЦентрыКомпетенций
-                WHERE Страна = %s 
-                AND Приоритет = %s", [$name_of_center, $country, $priority]));
-            }
-
-          }
-
-        }
-
-      // Поиск по названию центра, компетенции...
-        else {
-
-          if ($country === '') {
-
-          // 1100
-          // Поиск по названию центра, компетенции...
-            if ($priority === '') {
-              $sql_select = $wpdb->get_results($wpdb->prepare("
-                SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
-                FROM ЦентрыКомпетенций
-                WHERE НазваниеКомпетенции = %s", $name_of_competency));
-            }
-
-          // 1101
-          // Поиск по названию центра, компетенции и приоритету...
-            else {
-              $sql_select = $wpdb->get_results($wpdb->prepare("
-                SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
-                FROM ЦентрыКомпетенций 
-                WHERE НазваниеКомпетенции = %s 
-                AND Приоритет = %s", [$name_of_competency, $priority]));
-            }
-
-          }
-
-          else {
-
-          // 1110 
-          // Поиск по названию центра, компетенции и стране...
-            if ($priority === '') {
-
-              $sql_select = $wpdb->get_results($wpdb->prepare("
-                SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
-                FROM ЦентрыКомпетенций 
-                WHERE НазваниеКомпетенции = %s
-                AND Страна = %s", [$name_of_competency, $country]));
-            }
-
-          // 1111
-          // Поиск по названию центра, компетенции, стране, приоритету...
-            else {
-              $sql_select = $wpdb->get_results($wpdb->prepare("
-                SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
-                FROM ЦентрыКомпетенций 
-                WHERE НазваниеКомпетенции = %s 
-                AND Страна = %s
-                AND Приоритет = %s", [$name_of_competency, $country ,$priority]));
-            }
-
-          }
-        }
-
-      }
 
     // Если пользователь ввел какие-то значения для поиска...
-      if ($is_show === 1) {
+      if ($is_show === 1 and $sql_select) {
 
         echo '
         <div class="row">
@@ -281,7 +168,6 @@
           <input type="text" placeholder="Название региона" id="region" name="region" size="20"><br><br>
           <div id="search_box-region-result"></div>
 
-          <input type="text" style="display:none;" value="' . $name_of_center . '" name="name_of_center">
           <input type="text" style="display:none;" value="' . $name_of_competency . '" name="name_of_competency">
           <input type="text" style="display:none;" value="' . $country . '" name="country">
           <input type="text" style="display:none;" value="' . $priority . '" name="priority">
@@ -315,7 +201,6 @@
         <input type="text" placeholder="Ключевое слово" id="keyword" name="keyword" size="20"><br><br>
         <div id="search_box-keyword-result"></div>
         
-        <input type="text" style="display:none;" value="' . $name_of_center . '" name="name_of_center">
         <input type="text" style="display:none;" value="' . $name_of_competency . '" name="name_of_competency">
         <input type="text" style="display:none;" value="' . $country . '" name="country">
         <input type="text" style="display:none;" value="' . $priority . '" name="priority">
@@ -374,10 +259,10 @@
 
         foreach ($sql_select as $row) {
           echo '<tr> 
-          <td> <a href="/centers_of_competence.php?name_of_center=' . $row->НазваниеЦентра . '&name_of_competency=&country=&priority=">' . $row->НазваниеЦентра . '</a></td>
-          <td> <a href="/centers_of_competence.php?name_of_center=&country=' . $row->Страна . '&name_of_competency=&priority=">' . $row->Страна . '</a></td>
-          <td> <a href="/centers_of_competence.php?name_of_center=&country=&name_of_competency=' . $row->НазваниеКомпетенции . '&priority=">' . $row->НазваниеКомпетенции . '</a></td>
-          <td> <a href="/centers_of_competence.php?name_of_center=&country=&name_of_competency=&priority=' . $row->Приоритет . '">' . $row->Приоритет . '</a></td> </tr>';
+          <td> <a href="/info_about_centers.php?name_of_center=' . $row->НазваниеЦентра . '">' . $row->НазваниеЦентра . '</a></td>
+          <td> <a href="/centers_of_competence.php?&country=' . $row->Страна . '&name_of_competency=&priority=">' . $row->Страна . '</a></td>
+          <td> <a href="/centers_of_competence.php?&country=&name_of_competency=' . $row->НазваниеКомпетенции . '&priority=">' . $row->НазваниеКомпетенции . '</a></td>
+          <td> <a href="/centers_of_competence.php?&country=&name_of_competency=&priority=' . $row->Приоритет . '">' . $row->Приоритет . '</a></td> </tr>';
         }
 
         echo '
@@ -388,6 +273,10 @@
         </div>
         </div>';
 
+      }
+
+      else {
+        echo '<p class="h4" align="center"><br><br><br><br>Записей не найдено</p>';
       }
 
       ?>
