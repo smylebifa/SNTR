@@ -1,32 +1,32 @@
 $(document).ready(function() {  
 
-  var $result_name = $('#search_box-name-result');
+  var $result_name = $('#search_box_name_of_center');
 
-  var $result_competence = $('#search_box-competence-result');
+  var $result_competence = $('#search_box_name_of_competency');
   
-  var $result_country = $('#search_box-country-result');
+  var $result_country = $('#search_box_name_of_country');
   
-  var $result_keyword = $('#search_box-keyword-result');
+  var $result_keyword = $('#search_box_keyword');
   
   var $result_district = $('#search_box-district-result');
   
   var $result_region = $('#search_box-region-result');
   
 
-  $('#name').on('keyup', function(){
+  $('#name_of_center').on('keyup', function(){
     
 
-    var name= $(this).val();
+    var name_of_center= $(this).val();
 
-    if ((name != '') && (name.length > 1)){
+    if ((name_of_center != '') && (name_of_center.length > 1)){
 
       $.ajax({
 
         type: "POST",
 
-        url: "/ajax_search.php",
+        url: "/tooltip_search.php",
 
-        data: {'name': name},
+        data: {'name_of_center': name_of_center},
 
         success: function(msg){
 
@@ -68,7 +68,7 @@ $(document).ready(function() {
 
         type: "POST",
 
-        url: "/ajax_search.php",
+        url: "/tooltip_search.php",
 
         data: {'keyword': keyword},
 
@@ -100,20 +100,19 @@ $(document).ready(function() {
 
   });
 
-  $('#competence').on('keyup', function(){
+  $('#name_of_competency').on('keyup', function(){
     
+    var name_of_competency= $(this).val();
 
-    var competence= $(this).val();
-
-    if ((competence!= '') && (competence.length > 1)){
+    if ((name_of_competency!= '') && (name_of_competency.length > 1)){
 
       $.ajax({
 
         type: "POST",
 
-        url: "/ajax_search.php",
+        url: "/tooltip_search.php",
 
-        data: {'competence': competence},
+        data: {'name_of_competency': name_of_competency},
 
         success: function(msg){
 
@@ -156,7 +155,7 @@ $(document).ready(function() {
 
         type: "POST",
 
-        url: "/ajax_search.php",
+        url: "/tooltip_search.php",
 
         data: {'country': country},
 
@@ -198,7 +197,7 @@ $(document).ready(function() {
 
         type: "POST",
 
-        url: "/ajax_search.php",
+        url: "/tooltip_search.php",
 
         data: {'district': district},
 
@@ -242,7 +241,7 @@ $(document).ready(function() {
 
         type: "POST",
 
-        url: "/ajax_search.php",
+        url: "/tooltip_search.php",
 
         data: {'region': region},
 

@@ -1,16 +1,17 @@
 <?php
-if (!empty($_POST['name'])) {
+
+if (!empty($_POST['name_of_center'])) {
 
   require_once('wp-load.php');
 
   global $wpdb;
   
-  $name = $_POST['name'];
+  $name_of_center = $_POST['name_of_center'];
   
-  sanitize_text_field($name);
+  sanitize_text_field($name_of_center);
   
-  $result = $wpdb->get_results($wpdb->prepare("SELECT DISTINCT НазваниеЦентра FROM ЦентрыКомпетенций 
-    WHERE НазваниеЦентра LIKE '{$name}%' ORDER BY НазваниеЦентра LIMIT 0, 5"));
+  $result = $wpdb->get_results($wpdb->prepare("SELECT DISTINCT НазваниеЦентра FROM ИнформацияПоЦентрам 
+    WHERE НазваниеЦентра LIKE '{$name_of_center}%' ORDER BY НазваниеЦентра LIMIT 0, 5"));
   
   if ($result) {
     ?>
@@ -20,7 +21,7 @@ if (!empty($_POST['name'])) {
           <tr>
             <td class="search_result-name">
               <button type="button" style="font: inherit; color: inherit; background-color: transparent;"
-              onClick="document.getElementById('name').value = '<?php echo $row->НазваниеЦентра ?>'">
+              onClick="document.getElementById('name_of_center').value = '<?php echo $row->НазваниеЦентра ?>'">
               <?php echo $row->НазваниеЦентра; ?></button> 
             </td>
           </tr>
@@ -31,18 +32,18 @@ if (!empty($_POST['name'])) {
   }
 }
 
-if (!empty($_POST['competency'])) {
+if (!empty($_POST['name_of_competency'])) {
 
   require_once('wp-load.php');
 
   global $wpdb;
   
-  $competency = $_POST['competency'];
+  $name_of_competency = $_POST['name_of_competency'];
   
-  sanitize_text_field($competency);
+  sanitize_text_field($name_of_competency);
 
   $result = $wpdb->get_results($wpdb->prepare("SELECT DISTINCT НазваниеКомпетенции FROM ЦентрыКомпетенций
-    WHERE НазваниеКомпетенции LIKE '{$competency}%' ORDER BY НазваниеКомпетенции LIMIT 0, 5"));
+    WHERE НазваниеКомпетенции LIKE '{$name_of_competency}%' ORDER BY НазваниеКомпетенции LIMIT 0, 5"));
   
   
   if ($result) {
@@ -53,7 +54,7 @@ if (!empty($_POST['competency'])) {
           <tr>
             <td class="search_result-name">
               <button type="button" style="font: inherit;color: inherit;background-color: transparent;"
-              onClick="document.getElementById('competency').value = '<?php echo $row->НазваниеКомпетенции ?>'">
+              onClick="document.getElementById('name_of_competency').value = '<?php echo $row->НазваниеКомпетенции ?>'">
               <?php echo $row->НазваниеКомпетенции; ?></button>
             </td>
           </tr>
@@ -110,7 +111,12 @@ if (!empty($_POST['keyword'])) {
   $result = $wpdb->get_results($wpdb->prepare("
     SELECT DISTINCT КлючевоеСлово
     FROM КлючевыеСлова
-    WHERE КлючевоеСлово LIKE '{$keyword}%' ORDER BY КлючевоеСлово LIMIT 0, 5"));
+    WHERE КлючевоеСлово LIKE '{$keyword}%'
+    UNION
+    SELECT DISTINCT Keyword
+    FROM Keywords
+    WHERE Keyword LIKE '{$keyword}%'
+    ORDER BY КлючевоеСлово LIMIT 0, 5"));
   
   
   if ($result) {
@@ -120,8 +126,8 @@ if (!empty($_POST['keyword'])) {
         <?php foreach ($result as $row): ?>
           <tr>
             <td class="search_result-name">
-              <button type="button" class="btn btn-link"  
-              style="text-decoration: none;" onClick="document.getElementById('keyword').value = '<?php echo $row->КлючевоеСлово ?>'">
+              <button type="button"
+              style="font: inherit;color: inherit;background-color: transparent;" onClick="document.getElementById('keyword').value = '<?php echo $row->КлючевоеСлово ?>'">
               <?php echo $row->КлючевоеСлово; ?></button>
             </td>
           </tr>

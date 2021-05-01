@@ -31,21 +31,30 @@
 
 
   // Getting params from user entering in form...
-    $name = $_GET['name'];
-    $competency = $_GET['competency'];
-    $country = $_GET['country'];
-    $priority = $_GET['priority'];
     $keyword = $_GET['keyword'];
     
     
   // Sql injection protection...
-    sanitize_text_field($name);
-    sanitize_text_field($competency);
-    sanitize_text_field($country);
-    sanitize_text_field($priority);
     sanitize_text_field($keyword);
 
-    echo '
+    if ($keyword === '') {
+      $is_show = 0;
+      echo '<p class="h4" align="center"><br><br><br><br>Вы не ввели ничего для поиска</p>';
+    }
+
+    else {
+      $sql_select = $wpdb->get_results($wpdb->prepare("
+        SELECT ЦентрыКомпетенций.НазваниеЦентра, ЦентрыКомпетенций.Страна, 
+        ЦентрыКомпетенций.НазваниеКомпетенции 
+        FROM ЦентрыКомпетенций, КлючевыеСлова, КодыКомпетенций 
+        WHERE КлючевыеСлова.КодКомпетенции = КодыКомпетенций.КодКомпетенции 
+        AND КодыКомпетенций.НазваниеКомпетенции = ЦентрыКомпетенций.НазваниеКомпетенции 
+        AND КлючевыеСлова.КлючевоеСлово = %s", $keyword));
+
+      if ($sql_select) {
+
+        echo '
+
     <div class="row">
     <div class="col-6">
     <div class="search_box">
@@ -59,11 +68,6 @@
     <label for="region_label">Регион:</label><br>
     <input type="text" placeholder="Название региона" id="region" name="region" size="20"><br><br>
     <div id="search_box-region-result"></div>
-
-    <input type="text" style="display:none;" value="' . $name . '" name="name">
-    <input type="text" style="display:none;" value="' . $competency . '" name="competency">
-    <input type="text" style="display:none;" value="' . $country . '" name="country">
-    <input type="text" style="display:none;" value="' . $priority . '" name="priority">
 
 
     <input id="submit" type="submit" value="Найти и вывести" style="
@@ -82,83 +86,65 @@
     </form>
     </fieldset>
     </div>
-
     </div>
-    
-    <div class="col-6">
-    <div class="search_box">
-    <fieldset style="text-align: right">
-    <form method="get" action="/compet_choose_by_keyword.php">
-    <label for="keyword_label">Поиск центров по ключевому слову:</label><br>
-    <input type="text" placeholder="Ключевое слово" id="keyword" name="keyword" size="20"><br><br>
-    <div id="search_box-keyword-result"></div>
-    <input id="submit" type="submit" value="Найти и вывести" style = "
-    text-decoration: none;
-    background: #ff6a3e;
-    border: medium none;
-    color: #fff;
-    border-radius: 50px;
-    font-size: 15px;
-    line-height: 1.5;
-    padding: 12px 25px;
-    text-transform: uppercase;
-    font-weight: 500; font: inherit; cursor: pointer;"><br>
-
-    </form>
-    </fieldset>
     </div>
 
+    <div class="row">
+      <div class="col-12"><p></p></div>
     </div>
-    </div>';
 
+    <div class="row">
+      <div class="col-12"><p></p></div>
+    </div>
 
-    if ($keyword === '') {
-      $is_show = 0;
-      echo '<p class="h4" align="center"><br><br><br><br>Вы не ввели ничего для поиска</p>';
-    }
+    <div class="row">
+      <div class="col-12"><p></p></div>
+    </div>
 
-    else {
-      $sql_select = $wpdb->get_results($wpdb->prepare("
-        SELECT ЦентрыКомпетенций.НазваниеЦентра, ЦентрыКомпетенций.Страна, 
-        ЦентрыКомпетенций.НазваниеКомпетенции 
-        FROM ЦентрыКомпетенций, КлючевыеСлова, КодыКомпетенций 
-        WHERE КлючевыеСлова.КодКомпетенции = КодыКомпетенций.КодКомпетенции 
-        AND КодыКомпетенций.НазваниеКомпетенции = ЦентрыКомпетенций.НазваниеКомпетенции 
-        AND КлючевыеСлова.КлючевоеСлово = %s", $keyword));
+        <div class="row">
 
+        <div class="col-12">
 
-      echo '
-      <div class="row">
+        <p class="h4" style="text-align: center">Центры компетенций</p>
+        <div class="table-responsive">
+        <figure class="wp-block-table">
+        <table class="table table-hover table-bordered" style="text-align:center">
+        <thead class="thead-dark">
+        <tr>
+        <th scope="col">Название центра</th>
+        <th scope="col">Страна</th>
+        <th scope="col">Название компетенции</th>
+        </tr>
+        </thead>
+        <tbody>';
 
-      <div class="col-12">
+        foreach ($sql_select as $row) {
+          echo '<tr> 
+          <td> <a href="/compet_choose.php?name=' . $row->НазваниеЦентра . '&competency=&country=&priority=">' . $row->НазваниеЦентра . '</a></td>
+          <td> <a href="/compet_choose.php?name=&country=' . $row->Страна . '&competency=&priority=">' . $row->Страна . '</a></td>
+          <td> <a href="/compet_choose.php?name=&country=&competency=' . $row->НазваниеКомпетенции . '&priority=">' . $row->НазваниеКомпетенции . '</a></td></tr>';
+        }
 
-      <p class="h4" style="text-align: center">Центры компетенций</p>
-      <div class="table-responsive">
-      <figure class="wp-block-table">
-      <table class="table table-hover table-bordered" style="text-align:center">
-      <thead class="thead-dark">
-      <tr>
-      <th scope="col">Название центра</th>
-      <th scope="col">Страна</th>
-      <th scope="col">Название компетенции</th>
-      </tr>
-      </thead>
-      <tbody>';
+        echo '
+        </tbody>
+        </table>
+        </figure>
+        </div>
+        </div>
+        </div>
+        ';
 
-      foreach ($sql_select as $row) {
-        echo '<tr> 
-        <td> <a href="/compet_choose.php?name=' . $row->НазваниеЦентра . '&competency=&country=&priority=">' . $row->НазваниеЦентра . '</a></td>
-        <td> <a href="/compet_choose.php?name=&country=' . $row->Страна . '&competency=&priority=">' . $row->Страна . '</a></td>
-        <td> <a href="/compet_choose.php?name=&country=&competency=' . $row->НазваниеКомпетенции . '&priority=">' . $row->НазваниеКомпетенции . '</a></td></tr>';
+      }
+
+      else {
+        echo '<p class="h4" align="center"><br><br><br><br>Записей не найдено</p>';
       }
 
     }
 
     ?>
 
-    <div class="row">
-      <div class="col-12"><p></p></div>
-    </div>
+    
 
     <div class="row">
       <div class="col-12"><p></p></div>
@@ -168,48 +154,30 @@
       <div class="col-12"><p></p></div>
     </div>
 
+    <div class="row">
+      <div class="col-3"></div>
+      <div class="col-6" style="text-align:center">
+        <a href="/search-centers" role="button" style="
+        text-decoration: none;
+        background: #ff6a3e;
+        border: medium none;
+        color: #fff;
+        border-radius: 50px;
+        font-size: 15px;
+        line-height: 1.5;
+        padding: 12px 25px;
+        text-transform: uppercase;
+        font-weight: 500; font: inherit; cursor: pointer;">Поиск центров компетенций</a>
+      </div>
+      <div class="col-3"></div>
+    </div>
 
+    <div class="row">
+      <div class="col-12"><p><br><br></p></div>
+    </div>
 
-  </tbody>
-</table>
-</figure>
-</div>
-</div>
-</div>
+    <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/tooltip.js"></script>
 
-
-<div class="row">
-  <div class="col-12"><p></p></div>
-</div>
-
-<div class="row">
-  <div class="col-12"><p></p></div>
-</div>
-
-<div class="row">
-  <div class="col-3"></div>
-  <div class="col-6" style="text-align:center">
-    <a href="/search-centers" role="button" style="
-    text-decoration: none;
-    background: #ff6a3e;
-    border: medium none;
-    color: #fff;
-    border-radius: 50px;
-    font-size: 15px;
-    line-height: 1.5;
-    padding: 12px 25px;
-    text-transform: uppercase;
-    font-weight: 500; font: inherit; cursor: pointer;">Поиск центров компетенций</a>
-  </div>
-  <div class="col-3"></div>
-</div>
-
-<div class="row">
-  <div class="col-12"><p><br><br></p></div>
-</div>
-
-<script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
-<script src="/tooltip.js"></script>
-
-</body>
-</html>
+  </body>
+  </html>

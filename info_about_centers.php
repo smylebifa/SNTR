@@ -70,7 +70,7 @@
 
         <div class="col-12">
 
-        <p class="h4" style="text-align: center">Информация по центрам компетенций</p><br>
+        <p class="h4" style="text-align: center">Информация по центру компетенций</p><br>
         <div class="table-responsive">
         <figure class="wp-block-table">
         <table class="table table-hover table-bordered" style="text-align:center">
