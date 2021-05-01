@@ -1,5 +1,139 @@
 <?php
 
+if (!empty($_POST['code_of_competency_dev'])) {
+
+  require_once('wp-load.php');
+
+  global $wpdb;
+  
+  $code_of_competency_dev = $_POST['code_of_competency_dev'];
+  
+  sanitize_text_field($code_of_competency_dev);
+  
+  $result = $wpdb->get_results($wpdb->prepare("
+    SELECT DISTINCT КодОквэд
+FROM КодыОквэд
+
+INNER JOIN ОквэдВЧастиРазработки
+ON КодыОквэд.НазваниеОквэд = ОквэдВЧастиРазработки.НазваниеОквэд
+
+INNER JOIN КодыКомпетенций
+ON ОквэдВЧастиРазработки.КодКомпетенции = КодыКомпетенций.КодКомпетенции
+
+INNER JOIN ЦентрыКомпетенций
+ON КодыКомпетенций.НазваниеКомпетенции = ЦентрыКомпетенций.НазваниеКомпетенции
+
+WHERE КодыОквэд.КодОквэд LIKE '{$code_of_competency_dev}%' ORDER BY КодОквэд LIMIT 0, 5"));
+  
+  if ($result) {
+    ?>
+    <div class="search_result">
+      <table>
+        <?php foreach ($result as $row): ?>
+          <tr>
+            <td class="search_result-name">
+              <button type="button" style="font: inherit; color: inherit; background-color: transparent;"
+              onClick="document.getElementById('code_of_competency_dev').value = '<?php echo $row->КодОквэд ?>'">
+              <?php echo $row->КодОквэд; ?></button> 
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </table>
+    </div>
+    <?php
+  }
+}
+
+if (!empty($_POST['code_of_competency_apply'])) {
+
+  require_once('wp-load.php');
+
+  global $wpdb;
+  
+  $code_of_competency_apply = $_POST['code_of_competency_apply'];
+  
+  sanitize_text_field($code_of_competency_apply);
+  
+  $result = $wpdb->get_results($wpdb->prepare("
+    SELECT DISTINCT КодОквэд
+FROM КодыОквэд
+
+INNER JOIN ОквэдВЧастиПрименения
+ON КодыОквэд.НазваниеОквэд = ОквэдВЧастиПрименения.НазваниеОквэд
+
+INNER JOIN КодыКомпетенций
+ON ОквэдВЧастиПрименения.КодКомпетенции = КодыКомпетенций.КодКомпетенции
+
+INNER JOIN ЦентрыКомпетенций
+ON КодыКомпетенций.НазваниеКомпетенции = ЦентрыКомпетенций.НазваниеКомпетенции
+
+WHERE КодыОквэд.КодОквэд LIKE '{$code_of_competency_apply}%' ORDER BY КодОквэд LIMIT 0, 5"));
+  
+  if ($result) {
+    ?>
+    <div class="search_result">
+      <table>
+        <?php foreach ($result as $row): ?>
+          <tr>
+            <td class="search_result-name">
+              <button type="button" style="font: inherit; color: inherit; background-color: transparent;"
+              onClick="document.getElementById('code_of_competency_apply').value = '<?php echo $row->КодОквэд ?>'">
+              <?php echo $row->КодОквэд; ?></button> 
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </table>
+    </div>
+    <?php
+  }
+}
+
+if (!empty($_POST['code_of_competency_service'])) {
+
+  require_once('wp-load.php');
+
+  global $wpdb;
+  
+  $code_of_competency_service = $_POST['code_of_competency_service'];
+  
+  sanitize_text_field($code_of_competency_service);
+  
+  $result = $wpdb->get_results($wpdb->prepare("
+    SELECT DISTINCT КодОквэд
+FROM КодыОквэд
+
+INNER JOIN ОквэдВЧастиПредоставленияУслуг
+ON КодыОквэд.НазваниеОквэд = ОквэдВЧастиПредоставленияУслуг.НазваниеОквэд
+
+INNER JOIN КодыКомпетенций
+ON ОквэдВЧастиПредоставленияУслуг.КодКомпетенции = КодыКомпетенций.КодКомпетенции
+
+INNER JOIN ЦентрыКомпетенций
+ON КодыКомпетенций.НазваниеКомпетенции = ЦентрыКомпетенций.НазваниеКомпетенции
+
+WHERE КодыОквэд.КодОквэд LIKE '{$code_of_competency_service}%' ORDER BY КодОквэд LIMIT 0, 5"));
+  
+  if ($result) {
+    ?>
+    <div class="search_result">
+      <table>
+        <?php foreach ($result as $row): ?>
+          <tr>
+            <td class="search_result-name">
+              <button type="button" style="font: inherit; color: inherit; background-color: transparent;"
+              onClick="document.getElementById('code_of_competency_service').value = '<?php echo $row->КодОквэд ?>'">
+              <?php echo $row->КодОквэд; ?></button> 
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </table>
+    </div>
+    <?php
+  }
+}
+
+
+
 if (!empty($_POST['name_of_center'])) {
 
   require_once('wp-load.php');

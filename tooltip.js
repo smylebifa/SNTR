@@ -11,7 +11,145 @@ $(document).ready(function() {
   var $result_district = $('#search_box-district-result');
   
   var $result_region = $('#search_box-region-result');
+
+  var $result_okved_dev = $('#search_box_code_of_competency_dev');
+
+  var $result_okved_apply = $('#search_box_code_of_competency_apply');
+
+  var $result_okved_service = $('#search_box_code_of_competency_service');
   
+
+  $('#code_of_competency_dev').on('keyup', function(){
+    
+
+    var code_of_competency_dev= $(this).val();
+
+    if ((code_of_competency_dev != '') && (code_of_competency_dev.length > 1)){
+
+      $.ajax({
+
+        type: "POST",
+
+        url: "/tooltip_search.php",
+
+        data: {'code_of_competency_dev': code_of_competency_dev},
+
+        success: function(msg){
+
+          $result_okved_dev.html(msg);
+          
+          if(msg != ''){  
+
+            $result_okved_dev.fadeIn();
+            
+          } else {
+
+            $result_okved_dev.fadeOut(100);
+            
+          }
+
+        }
+
+      });
+
+    } else {
+
+      $result_okved_dev.html('');
+
+      $result_okved_dev.fadeOut(100);
+
+    }
+
+  });
+
+
+  $('#code_of_competency_apply').on('keyup', function(){
+    
+
+    var code_of_competency_apply= $(this).val();
+
+    if ((code_of_competency_apply != '') && (code_of_competency_apply.length > 1)){
+
+      $.ajax({
+
+        type: "POST",
+
+        url: "/tooltip_search.php",
+
+        data: {'code_of_competency_apply': code_of_competency_apply},
+
+        success: function(msg){
+
+          $result_okved_apply.html(msg);
+          
+          if(msg != ''){  
+
+            $result_okved_apply.fadeIn();
+            
+          } else {
+
+            $result_okved_apply.fadeOut(100);
+            
+          }
+
+        }
+
+      });
+
+    } else {
+
+      $result_okved_apply.html('');
+
+      $result_okved_apply.fadeOut(100);
+
+    }
+
+  });
+
+
+  $('#code_of_competency_service').on('keyup', function(){
+    
+
+    var code_of_competency_service= $(this).val();
+
+    if ((code_of_competency_service != '') && (code_of_competency_service.length > 1)){
+
+      $.ajax({
+
+        type: "POST",
+
+        url: "/tooltip_search.php",
+
+        data: {'code_of_competency_service': code_of_competency_service},
+
+        success: function(msg){
+
+          $result_okved_service.html(msg);
+          
+          if(msg != ''){  
+
+            $result_okved_service.fadeIn();
+            
+          } else {
+
+            $result_okved_service.fadeOut(100);
+            
+          }
+
+        }
+
+      });
+
+    } else {
+
+      $result_okved_service.html('');
+
+      $result_okved_service.fadeOut(100);
+
+    }
+
+  });
+
 
   $('#name_of_center').on('keyup', function(){
     
@@ -275,8 +413,6 @@ $(document).ready(function() {
   
   
   
-  
-  
 
   $(document).on('click', function(e){
 
@@ -305,6 +441,18 @@ $(document).ready(function() {
       $result_region.html('');
 
       $result_region.fadeOut(100);
+
+      $result_okved_dev.html('');
+
+      $result_okved_dev.fadeOut(100);
+
+      $result_okved_apply.html('');
+
+      $result_okved_apply.fadeOut(100);
+
+      $result_okved_service.html('');
+
+      $result_okved_service.fadeOut(100);
 
     }
 
