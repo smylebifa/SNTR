@@ -250,8 +250,11 @@ if (!empty($_POST['keyword'])) {
     SELECT DISTINCT Keyword
     FROM Keywords
     WHERE Keyword LIKE '{$keyword}%'
+    UNION
+    SELECT DISTINCT НазваниеКомпетенции
+    FROM ЦентрыКомпетенций
+    WHERE НазваниеКомпетенции LIKE '{$keyword}%'
     ORDER BY КлючевоеСлово LIMIT 0, 5"));
-  
   
   if ($result) {
     ?>
