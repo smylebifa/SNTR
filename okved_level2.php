@@ -76,8 +76,8 @@
       foreach ($sql_select as $row) {
         
         echo '<tr>
-        <td> <a href="/okved_level3.php?code=' . $row->КодОквэд2Уровень . '">' . $row->КодОквэд2Уровень . '</a></td>
-        <td> <a href="/okved_level3.php?code=' . $row->КодОквэд2Уровень . '">' . $row->НазваниеОквэд . '</a></td>
+        <td> <a href="/okved_level3.php?code=' . $row->КодОквэд2Уровень . '" target="_blank">' . $row->КодОквэд2Уровень . '</a></td>
+        <td> <a href="/okved_level3.php?code=' . $row->КодОквэд2Уровень . '" target="_blank">' . $row->НазваниеОквэд . '</a></td>
         </tr>';
       }
       
