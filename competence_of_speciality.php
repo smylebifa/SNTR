@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="utf8">
-  <title>Коды специальностей</title>
+  <title>Компетенции специальности</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="/styles.css">
 </head>
@@ -31,27 +31,42 @@
 
 
   // Getting params from user entering in form...
-    $code_of_speciality = $_GET['code_of_speciality'];
+    $name_of_speciality = $_GET['name_of_speciality'];
     
     
   // Sql injection protection...
-    sanitize_text_field($code_of_speciality);
+    sanitize_text_field($name_of_speciality);
 
-    $sql_select = $wpdb->get_results($wpdb->prepare("
-      SELECT DISTINCT НаучныеСпециальности.КодСпециальности2Уровень, КодыСпециальностей.НазваниеСпециальности
+    $sql_priorities = $wpdb->get_results($wpdb->prepare("
+      SELECT DISTINCT НаучныеСпециальности.Приоритет
       FROM НаучныеСпециальности
 
       INNER JOIN КодыСпециальностей
       ON НаучныеСпециальности.КодСпециальности2Уровень = КодыСпециальностей.КодСпециальности
 
-      LEFT JOIN ГруппаСпециальностей
-      ON НаучныеСпециальности.КодСпециальности1Уровень = ГруппаСпециальностей.КодСпециальности
+      WHERE КодыСпециальностей.НазваниеСпециальности = 'Вещественный, комплексный и функциональный анализ'  
+      ORDER BY `НаучныеСпециальности`.`Приоритет` ASC", [$name_of_speciality]));
 
-      LEFT JOIN ПодгруппаСпециальностей
-      ON НаучныеСпециальности.КодСпециальности1Уровень = ПодгруппаСпециальностей.КодСпециальности
+    $priorities = array();
 
-      WHERE НаучныеСпециальности.КодСпециальности1Уровень = %s
-      ORDER BY НаучныеСпециальности.КодСпециальности2Уровень ASC", [$code_of_speciality]));
+    foreach ($sql_priorities as $row) {
+        array_push($priorities, $row->Приоритет);
+      }
+
+
+    $sql_select = $wpdb->get_results($wpdb->prepare("
+      SELECT DISTINCT КодыКомпетенций.НазваниеКомпетенции
+      FROM КодыКомпетенций
+
+      INNER JOIN СпециальностиКомпетенции
+      ON КодыКомпетенций.КодКомпетенции = СпециальностиКомпетенции.КодКомпетенции
+
+      INNER JOIN КодыСпециальностей
+      ON СпециальностиКомпетенции.КодСпециальности = КодыСпециальностей.КодСпециальности
+
+      WHERE КодыСпециальностей.НазваниеСпециальности = %s
+      AND КодыКомпетенций.НазваниеКомпетенции IS NOT NULL  
+      ORDER BY `КодыКомпетенций`.`НазваниеКомпетенции` ASC", [$name_of_speciality]));
 
     if ($sql_select) {
 
@@ -73,13 +88,12 @@
 
       <div class="col-12">
 
-      <p class="h4" style="text-align: center">Коды специальностей</p><br>
+      <p class="h4" style="text-align: center">Компетенции относящиеся к "' . $name_of_speciality .'" (приоритеты - ' . implode(", ", $priorities) .')</p><br>
       <div class="table-responsive">
       <figure class="wp-block-table">
       <table class="table table-hover table-bordered" style="text-align:center">
       <thead class="thead-dark">
       <tr>
-      <th scope="col">Код специальности</th>
       <th scope="col">Название компетенции</th>
       </tr>
       </thead>
@@ -87,8 +101,7 @@
 
       foreach ($sql_select as $row) {
         echo '<tr> 
-        <td> <a href="/competence_of_speciality.php?name_of_speciality=' . $row->НазваниеСпециальности . '" target="_blank">' . $row->КодСпециальности2Уровень . '</a></td>
-        <td> <a href="/competence_of_speciality.php?name_of_speciality=' . $row->НазваниеСпециальности . '" target="_blank">' . $row->НазваниеСпециальности . '</a></td></tr>';
+        <td style="color: rgb(0, 123, 255);">' . $row->НазваниеКомпетенции . '</td></tr>';
       }
 
       echo '

@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="utf8">
-  <title>Коды компетенций</title>
+  <title>Коды специальностей</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="/styles.css">
 </head>
@@ -89,7 +89,7 @@
       <table class="table table-hover table-bordered" style="text-align:center">
       <thead class="thead-dark">
       <tr>
-      <th scope="col">Код компетенции</th>
+      <th scope="col">Код специальности</th>
       <th scope="col">Название компетенции</th>
       </tr>
       </thead>
