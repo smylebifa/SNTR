@@ -44,7 +44,7 @@
       INNER JOIN КодыСпециальностей
       ON НаучныеСпециальности.КодСпециальности2Уровень = КодыСпециальностей.КодСпециальности
 
-      WHERE КодыСпециальностей.НазваниеСпециальности = 'Вещественный, комплексный и функциональный анализ'  
+      WHERE КодыСпециальностей.НазваниеСпециальности = %s
       ORDER BY `НаучныеСпециальности`.`Приоритет` ASC", [$name_of_speciality]));
 
     $priorities = array();
@@ -88,7 +88,7 @@
 
       <div class="col-12">
 
-      <p class="h4" style="text-align: center">Компетенции относящиеся к "' . $name_of_speciality .'" (приоритеты - ' . implode(", ", $priorities) .')</p><br>
+      <p class="h4" style="text-align: center">Компетенции относящиеся к специальности "' . $name_of_speciality .'" (приоритеты - ' . implode(", ", $priorities) .')</p><br>
       <div class="table-responsive">
       <figure class="wp-block-table">
       <table class="table table-hover table-bordered" style="text-align:center">
@@ -116,7 +116,7 @@
     }
 
     else {
-      echo '<p class="h4" align="center"><br><br><br><br>Записей не найдено</p>';
+      echo '<p class="h4" align="center"><br><br><br><br>Компетенций по специальности не найдено</p>';
     }
 
     ?>

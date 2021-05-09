@@ -17,7 +17,99 @@ $(document).ready(function() {
   var $result_okved_apply = $('#search_box_code_of_competency_apply');
 
   var $result_okved_service = $('#search_box_code_of_competency_service');
+
+  var $result_connected_center = $('#search_box_name_of_connected_center');
+
+  var $result_suppliers_of_company = $('#search_box_name_of_company');
   
+
+$('#name_of_company').on('keyup', function(){
+    
+
+    var name_of_company= $(this).val();
+
+    if ((name_of_company != '') && (name_of_company.length > 1)){
+
+      $.ajax({
+
+        type: "POST",
+
+        url: "/tooltip_search.php",
+
+        data: {'name_of_company': name_of_company},
+
+        success: function(msg){
+
+          $result_suppliers_of_company.html(msg);
+          
+          if(msg != ''){  
+
+            $result_suppliers_of_company.fadeIn();
+            
+          } else {
+
+            $result_suppliers_of_company.fadeOut(100);
+            
+          }
+
+        }
+
+      });
+
+    } else {
+
+      $result_suppliers_of_company.html('');
+
+      $result_suppliers_of_company.fadeOut(100);
+
+    }
+
+  });
+
+
+$('#name_of_connected_center').on('keyup', function(){
+    
+
+    var name_of_connected_center= $(this).val();
+
+    if ((name_of_connected_center != '') && (name_of_connected_center.length > 1)){
+
+      $.ajax({
+
+        type: "POST",
+
+        url: "/tooltip_search.php",
+
+        data: {'name_of_connected_center': name_of_connected_center},
+
+        success: function(msg){
+
+          $result_connected_center.html(msg);
+          
+          if(msg != ''){  
+
+            $result_connected_center.fadeIn();
+            
+          } else {
+
+            $result_connected_center.fadeOut(100);
+            
+          }
+
+        }
+
+      });
+
+    } else {
+
+      $result_connected_center.html('');
+
+      $result_connected_center.fadeOut(100);
+
+    }
+
+  });
+
 
   $('#code_of_competency_dev').on('keyup', function(){
     
@@ -453,6 +545,14 @@ $(document).ready(function() {
       $result_okved_service.html('');
 
       $result_okved_service.fadeOut(100);
+
+      $result_connected_center.html('');
+
+      $result_connected_center.fadeOut(100);
+
+      $result_suppliers_of_company.html('');
+
+      $result_suppliers_of_company.fadeOut(100);
 
     }
 

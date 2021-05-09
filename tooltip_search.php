@@ -1,5 +1,74 @@
 <?php
 
+if (!empty($_POST['name_of_company'])) {
+
+  require_once('wp-load.php');
+
+  global $wpdb;
+  
+  $name_of_company = $_POST['name_of_company'];
+  
+  sanitize_text_field($name_of_company);
+  
+  $result = $wpdb->get_results($wpdb->prepare("
+    SELECT DISTINCT НазваниеЦентра
+        FROM ПоставщикиКомпаний
+        WHERE НазваниеЦентра LIKE '{$name_of_company}%' ORDER BY НазваниеЦентра LIMIT 0, 5"));
+  
+  if ($result) {
+    ?>
+    <div class="search_result">
+      <table>
+        <?php foreach ($result as $row): ?>
+          <tr>
+            <td class="search_result-name">
+              <button type="button" style="font: inherit; color: inherit; background-color: transparent;"
+              onClick="document.getElementById('name_of_company').value = '<?php echo $row->НазваниеЦентра ?>'">
+              <?php echo $row->НазваниеЦентра; ?></button> 
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </table>
+    </div>
+    <?php
+  }
+}
+
+
+if (!empty($_POST['name_of_connected_center'])) {
+
+  require_once('wp-load.php');
+
+  global $wpdb;
+  
+  $name_of_connected_center = $_POST['name_of_connected_center'];
+  
+  sanitize_text_field($name_of_connected_center);
+  
+  $result = $wpdb->get_results($wpdb->prepare("
+    SELECT DISTINCT НазваниеЦентра
+    FROM СвязанныеВедущиеЦентры
+    WHERE НазваниеЦентра LIKE '{$name_of_connected_center}%' ORDER BY НазваниеЦентра LIMIT 0, 5"));
+  
+  if ($result) {
+    ?>
+    <div class="search_result">
+      <table>
+        <?php foreach ($result as $row): ?>
+          <tr>
+            <td class="search_result-name">
+              <button type="button" style="font: inherit; color: inherit; background-color: transparent;"
+              onClick="document.getElementById('name_of_connected_center').value = '<?php echo $row->НазваниеЦентра ?>'">
+              <?php echo $row->НазваниеЦентра; ?></button> 
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </table>
+    </div>
+    <?php
+  }
+}
+
 if (!empty($_POST['code_of_competency_dev'])) {
 
   require_once('wp-load.php');
@@ -12,18 +81,18 @@ if (!empty($_POST['code_of_competency_dev'])) {
   
   $result = $wpdb->get_results($wpdb->prepare("
     SELECT DISTINCT КодОквэд
-FROM КодыОквэд
+    FROM КодыОквэд
 
-INNER JOIN ОквэдВЧастиРазработки
-ON КодыОквэд.НазваниеОквэд = ОквэдВЧастиРазработки.НазваниеОквэд
+    INNER JOIN ОквэдВЧастиРазработки
+    ON КодыОквэд.НазваниеОквэд = ОквэдВЧастиРазработки.НазваниеОквэд
 
-INNER JOIN КодыКомпетенций
-ON ОквэдВЧастиРазработки.КодКомпетенции = КодыКомпетенций.КодКомпетенции
+    INNER JOIN КодыКомпетенций
+    ON ОквэдВЧастиРазработки.КодКомпетенции = КодыКомпетенций.КодКомпетенции
 
-INNER JOIN ЦентрыКомпетенций
-ON КодыКомпетенций.НазваниеКомпетенции = ЦентрыКомпетенций.НазваниеКомпетенции
+    INNER JOIN ЦентрыКомпетенций
+    ON КодыКомпетенций.НазваниеКомпетенции = ЦентрыКомпетенций.НазваниеКомпетенции
 
-WHERE КодыОквэд.КодОквэд LIKE '{$code_of_competency_dev}%' ORDER BY КодОквэд LIMIT 0, 5"));
+    WHERE КодыОквэд.КодОквэд LIKE '{$code_of_competency_dev}%' ORDER BY КодОквэд LIMIT 0, 5"));
   
   if ($result) {
     ?>
@@ -56,18 +125,18 @@ if (!empty($_POST['code_of_competency_apply'])) {
   
   $result = $wpdb->get_results($wpdb->prepare("
     SELECT DISTINCT КодОквэд
-FROM КодыОквэд
+    FROM КодыОквэд
 
-INNER JOIN ОквэдВЧастиПрименения
-ON КодыОквэд.НазваниеОквэд = ОквэдВЧастиПрименения.НазваниеОквэд
+    INNER JOIN ОквэдВЧастиПрименения
+    ON КодыОквэд.НазваниеОквэд = ОквэдВЧастиПрименения.НазваниеОквэд
 
-INNER JOIN КодыКомпетенций
-ON ОквэдВЧастиПрименения.КодКомпетенции = КодыКомпетенций.КодКомпетенции
+    INNER JOIN КодыКомпетенций
+    ON ОквэдВЧастиПрименения.КодКомпетенции = КодыКомпетенций.КодКомпетенции
 
-INNER JOIN ЦентрыКомпетенций
-ON КодыКомпетенций.НазваниеКомпетенции = ЦентрыКомпетенций.НазваниеКомпетенции
+    INNER JOIN ЦентрыКомпетенций
+    ON КодыКомпетенций.НазваниеКомпетенции = ЦентрыКомпетенций.НазваниеКомпетенции
 
-WHERE КодыОквэд.КодОквэд LIKE '{$code_of_competency_apply}%' ORDER BY КодОквэд LIMIT 0, 5"));
+    WHERE КодыОквэд.КодОквэд LIKE '{$code_of_competency_apply}%' ORDER BY КодОквэд LIMIT 0, 5"));
   
   if ($result) {
     ?>
@@ -100,18 +169,18 @@ if (!empty($_POST['code_of_competency_service'])) {
   
   $result = $wpdb->get_results($wpdb->prepare("
     SELECT DISTINCT КодОквэд
-FROM КодыОквэд
+    FROM КодыОквэд
 
-INNER JOIN ОквэдВЧастиПредоставленияУслуг
-ON КодыОквэд.НазваниеОквэд = ОквэдВЧастиПредоставленияУслуг.НазваниеОквэд
+    INNER JOIN ОквэдВЧастиПредоставленияУслуг
+    ON КодыОквэд.НазваниеОквэд = ОквэдВЧастиПредоставленияУслуг.НазваниеОквэд
 
-INNER JOIN КодыКомпетенций
-ON ОквэдВЧастиПредоставленияУслуг.КодКомпетенции = КодыКомпетенций.КодКомпетенции
+    INNER JOIN КодыКомпетенций
+    ON ОквэдВЧастиПредоставленияУслуг.КодКомпетенции = КодыКомпетенций.КодКомпетенции
 
-INNER JOIN ЦентрыКомпетенций
-ON КодыКомпетенций.НазваниеКомпетенции = ЦентрыКомпетенций.НазваниеКомпетенции
+    INNER JOIN ЦентрыКомпетенций
+    ON КодыКомпетенций.НазваниеКомпетенции = ЦентрыКомпетенций.НазваниеКомпетенции
 
-WHERE КодыОквэд.КодОквэд LIKE '{$code_of_competency_service}%' ORDER BY КодОквэд LIMIT 0, 5"));
+    WHERE КодыОквэд.КодОквэд LIKE '{$code_of_competency_service}%' ORDER BY КодОквэд LIMIT 0, 5"));
   
   if ($result) {
     ?>
