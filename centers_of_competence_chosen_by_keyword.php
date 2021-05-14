@@ -44,7 +44,7 @@
 
     else {
       $sql_select = $wpdb->get_results($wpdb->prepare("
-        SELECT ЦентрыКомпетенций.НазваниеЦентра, ЦентрыКомпетенций.Страна, 
+        SELECT DISTINCT ЦентрыКомпетенций.НазваниеЦентра, ЦентрыКомпетенций.Страна, 
         ЦентрыКомпетенций.НазваниеКомпетенции 
         FROM ЦентрыКомпетенций
         
@@ -65,41 +65,6 @@
       if ($sql_select) {
 
         echo '
-
-    <div class="row">
-    <div class="col-6">
-    <div class="search_box">
-    <fieldset style="text-align: left">
-    <form method="get" action="/competence_district.php">
-    <div class="search_box">
-    <label for="disrtict_label">Федеральный округ:</label><br>
-    <input type="text" placeholder="Название округа" id="district" name="district" size="20"><br>
-    <div id="search_box-district-result"></div>
-
-    <label for="region_label">Регион:</label><br>
-    <input type="text" placeholder="Название региона" id="region" name="region" size="20"><br><br>
-    <div id="search_box-region-result"></div>
-
-
-    <input id="submit" type="submit" value="Найти и вывести" style="
-    text-decoration: none;
-    background: #ff6a3e;
-    border: medium none;
-    color: #fff;
-    border-radius: 50px;
-    font-size: 15px;
-    line-height: 1.5;
-    padding: 12px 25px;
-    text-transform: uppercase;
-    font-weight: 500; font: inherit; cursor: pointer;"><br>
-
-    </div>
-    </form>
-    </fieldset>
-    </div>
-    </div>
-    </div>
-
     <div class="row">
       <div class="col-12"><p></p></div>
     </div>
@@ -131,9 +96,9 @@
 
         foreach ($sql_select as $row) {
           echo '<tr> 
-          <td> <a href="/compet_choose.php?name=' . $row->НазваниеЦентра . '&competency=&country=&priority=">' . $row->НазваниеЦентра . '</a></td>
-          <td> <a href="/compet_choose.php?name=&country=' . $row->Страна . '&competency=&priority=">' . $row->Страна . '</a></td>
-          <td> <a href="/compet_choose.php?name=&country=&competency=' . $row->НазваниеКомпетенции . '&priority=">' . $row->НазваниеКомпетенции . '</a></td></tr>';
+          <td> <a href="/info_about_centers.php?name_of_center=' . $row->НазваниеЦентра . '" target="_blank">' . $row->НазваниеЦентра . '</a></td>
+          <td> <a href="/centers_of_competence.php?country=' . $row->Страна . '&name_of_competency=&priority=" target="_blank">' . $row->Страна . '</a></td>
+          <td> <a href="/centers_of_competence.php?country=&name_of_competency=' . $row->НазваниеКомпетенции . '&priority=" target="_blank">' . $row->НазваниеКомпетенции . '</a></td></tr>';
         }
 
         echo '

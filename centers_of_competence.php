@@ -59,7 +59,7 @@
           // Поиск по приоритету...
           else {
             $sql_select = $wpdb->get_results($wpdb->prepare("
-              SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
+              SELECT DISTINCT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
               FROM ЦентрыКомпетенций
               WHERE Приоритет = %s", $priority));
           }
@@ -73,7 +73,7 @@
           // Поиск по стране...
           if ($priority === '') {
             $sql_select = $wpdb->get_results($wpdb->prepare("
-              SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
+              SELECT DISTINCT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
               FROM ЦентрыКомпетенций
               WHERE Страна = %s", $country));
           }
@@ -82,7 +82,7 @@
           // Поиск по стране, приоритету...
           else {
             $sql_select = $wpdb->get_results($wpdb->prepare("
-              SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
+              SELECT DISTINCT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
               FROM ЦентрыКомпетенций
               WHERE Страна = %s 
               AND Приоритет = %s", [$country, $priority]));
@@ -101,7 +101,7 @@
           // Поиск по компетенции...
           if ($priority === '') {
             $sql_select = $wpdb->get_results($wpdb->prepare("
-              SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
+              SELECT DISTINCT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
               FROM ЦентрыКомпетенций
               WHERE НазваниеКомпетенции = %s", $name_of_competency));
           }
@@ -110,7 +110,7 @@
           // Поиск по компетенции и приоритету...
           else {
             $sql_select = $wpdb->get_results($wpdb->prepare("
-              SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
+              SELECT DISTINCT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
               FROM ЦентрыКомпетенций 
               WHERE НазваниеКомпетенции = %s 
               AND Приоритет = %s", [$name_of_competency, $priority]));
@@ -124,7 +124,7 @@
           // Поиск по компетенции и стране...
           if ($priority === '') {
             $sql_select = $wpdb->get_results($wpdb->prepare("
-              SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
+              SELECT DISTINCT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
               FROM ЦентрыКомпетенций 
               WHERE НазваниеКомпетенции = %s
               AND Страна = %s", [$name_of_competency, $country]));
@@ -134,7 +134,7 @@
           // Поиск по компетенции, стране, приоритету...
           else {
             $sql_select = $wpdb->get_results($wpdb->prepare("
-              SELECT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
+              SELECT DISTINCT НазваниеЦентра, Страна, НазваниеКомпетенции, Приоритет 
               FROM ЦентрыКомпетенций 
               WHERE НазваниеКомпетенции = %s 
               AND Страна = %s
@@ -228,10 +228,10 @@
 
           foreach ($sql_select as $row) {
             echo '<tr> 
-            <td> <a href="/info_about_centers.php?name_of_center=' . $row->НазваниеЦентра . '">' . $row->НазваниеЦентра . '</a></td>
-            <td> <a href="/centers_of_competence.php?&country=' . $row->Страна . '&name_of_competency=&priority=">' . $row->Страна . '</a></td>
-            <td> <a href="/centers_of_competence.php?&country=&name_of_competency=' . $row->НазваниеКомпетенции . '&priority=">' . $row->НазваниеКомпетенции . '</a></td>
-            <td> <a href="/centers_of_competence.php?&country=&name_of_competency=&priority=' . $row->Приоритет . '">' . $row->Приоритет . '</a></td> </tr>';
+            <td> <a href="/info_about_centers.php?name_of_center=' . $row->НазваниеЦентра . '" target="_blank">' . $row->НазваниеЦентра . '</a></td>
+            <td> <a href="/centers_of_competence.php?&country=' . $row->Страна . '&name_of_competency=&priority=" target="_blank">' . $row->Страна . '</a></td>
+            <td> <a href="/centers_of_competence.php?&country=&name_of_competency=' . $row->НазваниеКомпетенции . '&priority=" target="_blank">' . $row->НазваниеКомпетенции . '</a></td>
+            <td> <a href="/centers_of_competence.php?&country=&name_of_competency=&priority=' . $row->Приоритет . '" target="_blank">' . $row->Приоритет . '</a></td> </tr>';
           }
 
           echo '
