@@ -150,7 +150,7 @@
 
         if ($sql_select) {
           
-          if ($country === "Россия" or $country === '') {
+          if ($country === "Россия" or ($name_of_competency === '' and $country === '' and $priority === '')) {
             echo '
             <div class="row">
             <div class="col-6">
@@ -166,12 +166,7 @@
             <label for="region_label">Регион:</label><br>
             <input type="text" placeholder="Название региона" id="region" name="region" size="20"><br><br>
             <div id="search_box-region-result"></div>
-
-            <input type="text" style="display:none;" value="' . $name_of_competency . '" name="name_of_competency">
-            <input type="text" style="display:none;" value="' . $country . '" name="country">
-            <input type="text" style="display:none;" value="' . $priority . '" name="priority">
-
-
+            
             <input id="submit" type="submit" value="Найти и вывести" style="
             text-decoration: none;
             background: #ff6a3e;
@@ -208,13 +203,12 @@
           
           
           <div class="row">
-
           <div class="col-12">
 
           <p class="h4" style="text-align: center">Центры компетенций</p><br>
-          <div class="table-responsive">
+          <div class="table-responsive" style="overflow-y: scroll; height: 480px;">
           <figure class="wp-block-table">
-          <table class="table table-hover table-bordered" style="text-align:center">
+          <table class="table table-hover table-bordered" style="text-align:center;">
           <thead class="thead-dark">
           <tr>
           <th scope="col">Название центра</th>

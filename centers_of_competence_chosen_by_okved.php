@@ -237,67 +237,6 @@
 
       echo '
       <div class="row">
-      <div class="col-6">
-      <div class="search_box">
-      <fieldset style="text-align: left">
-      <form method="get" action="/competence_district.php">
-      <div class="search_box">
-      <label for="disrtict_label">Федеральный округ:</label><br>
-      <input type="text" placeholder="Название округа" id="district" name="district" size="20"><br>
-      <div id="search_box-district-result"></div>
-      
-      <label for="region_label">Регион:</label><br>
-      <input type="text" placeholder="Название региона" id="region" name="region" size="20"><br><br>
-      <div id="search_box-region-result"></div>
-      
-      
-      <input id="submit" type="submit" value="Найти и вывести" style="
-      text-decoration: none;
-      background: #ff6a3e;
-      border: medium none;
-      color: #fff;
-      border-radius: 50px;
-      font-size: 15px;
-      line-height: 1.5;
-      padding: 12px 25px;
-      text-transform: uppercase;
-      font-weight: 500; font: inherit; cursor: pointer;"><br>
-      
-      </div>
-      </form>
-      </fieldset>
-      </div>
-      
-      </div>
-      
-      <div class="col-6">
-      <div class="search_box">
-      <fieldset style="text-align: right">
-      <form method="get" action="/compet_choose_by_keyword.php">
-      <label for="keyword_label">Поиск центров по ключевому слову:</label><br>
-      <input type="text" placeholder="Ключевое слово" id="keyword" name="keyword" size="20"><br><br>
-      <div id="search_box-keyword-result"></div>
-      <input id="submit" type="submit" value="Найти и вывести" style = "
-      text-decoration: none;
-      background: #ff6a3e;
-      border: medium none;
-      color: #fff;
-      border-radius: 50px;
-      font-size: 15px;
-      line-height: 1.5;
-      padding: 12px 25px;
-      text-transform: uppercase;
-      font-weight: 500; font: inherit; cursor: pointer;"><br>
-
-      </form>
-      </fieldset>
-      </div>
-      
-      </div>
-      </div>
-      
-      
-      <div class="row">
       <div class="col-12"><p></p></div>
       </div>
       
@@ -315,7 +254,7 @@
 
 
       <p class="h4" style="text-align:center">Центры компетенций</p><br>
-      <div class="table-responsive">
+      <div class="table-responsive" style="overflow-y: scroll; height: 480px;">
       <figure class="wp-block-table">
       <table class="table table-hover table-bordered" style="text-align:center">
       <thead class="thead-dark">

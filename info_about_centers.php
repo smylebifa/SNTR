@@ -71,7 +71,7 @@
         <div class="col-12">
 
         <p class="h4" style="text-align: center">Информация по центру компетенций</p><br>
-        <div class="table-responsive">
+        <div class="table-responsive" style="overflow-y: scroll; height: 480px;">
         <figure class="wp-block-table">
         <table class="table table-hover table-bordered" style="text-align:center">
         <tbody>';
