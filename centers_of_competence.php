@@ -149,7 +149,7 @@
       if ($is_show === 1) {
 
         if ($sql_select) {
-
+          
           if ($country === "Россия") {
             echo '
             <div class="row">
@@ -188,6 +188,7 @@
           }
 
           echo '
+          
           <div class="row">
           <div class="col-12"><p></p></div>
           </div>
@@ -205,10 +206,7 @@
           <div class="col-12">
 
           <p class="h4" style="text-align: center">Центры компетенций</p><br>
-          
-          <div style = "height: 800px;">
-          <div class="table-responsive h-75" style="overflow-y: auto;">
-          
+          <div class="table-responsive" style="overflow-y: auto; min-height:200px; max-height: 600px;">
           <figure class="wp-block-table">
           <table class="table table-hover table-bordered" style="text-align:center;">
           <thead class="thead-dark">
@@ -225,9 +223,9 @@
           foreach ($sql_select as $row) {
             echo '<tr> 
             <td> <a href="/info_about_centers.php?name_of_center=' . $row->НазваниеЦентра . '" target="_blank">' . $row->НазваниеЦентра . '</a></td>
-            <td> <a href="/centers_of_competence.php?&country=' . $row->Страна . '&name_of_competency=&priority=" target="_blank">' . $row->Страна . '</a></td>
-            <td> <a href="/centers_of_competence.php?&country=&name_of_competency=' . $row->НазваниеКомпетенции . '&priority=" target="_blank">' . $row->НазваниеКомпетенции . '</a></td>
-            <td> <a href="/centers_of_competence.php?&country=&name_of_competency=&priority=' . $row->Приоритет . '" target="_blank">' . $row->Приоритет . '</a></td> </tr>';
+            <td> <a href="/centers_of_competence.php?name_of_competency=&country=' . $row->Страна . '&priority=" target="_blank">' . $row->Страна . '</a></td>
+            <td> <a href="/centers_of_competence.php?name_of_competency=' . $row->НазваниеКомпетенции . '&country=&priority=" target="_blank">' . $row->НазваниеКомпетенции . '</a></td>
+            <td> <a href="/centers_of_competence.php?name_of_competency=&country=&priority=' . $row->Приоритет . '" target="_blank">' . $row->Приоритет . '</a></td> </tr>';
           }
 
           echo '
@@ -235,24 +233,31 @@
           </table>
           </figure>
           </div>
-
-          <div class="h-25">
-          
-          <div class="row">
-          <div class="col-12"><p></p></div>
           </div>
+          </div>';
 
-          <div class="row">
-          <div class="col-12"><p></p></div>
-          </div>
+        }
 
-          <div class="row">
-          <div class="col-12"><p></p></div>
-          </div>
-          
-          <div class="row">
-          <div class="col-3"></div>
-          <div class="col-6" style="text-align:center">
+        else {
+
+          echo '<p class="h4" align="center"><br><br><br><br>Записей не найдено</p>';
+        }
+      }
+
+      ?>
+
+
+      <div class="row">
+        <div class="col-12"><p></p></div>
+      </div>
+
+      <div class="row">
+        <div class="col-12"><p></p></div>
+      </div>
+
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6" style="text-align:center">
           <a href="/search-centers" role="button" style="
           text-decoration: none;
           background: #ff6a3e;
@@ -264,25 +269,16 @@
           padding: 12px 25px;
           text-transform: uppercase;
           font-weight: 500; font: inherit; cursor: pointer;">Поиск центров компетенций</a>
-          </div>
-          <div class="col-3"></div>
-          </div>
-          </div>
-          </div>
-          </div>
-          </div>
-          </div>';
-        }
+        </div>
+        <div class="col-3"></div>
+      </div>
 
-        else {
-          echo '<p class="h4" align="center"><br><br><br><br>Записей не найдено</p>';
-        }
-      }
+      <div class="row">
+        <div class="col-12"><p><br><br></p></div>
+      </div>
 
-      ?>
+      <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+      <script src="/tooltip.js"></script>
 
-    <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
-    <script src="/tooltip.js"></script>
-
-  </body>
-  </html>
+    </body>
+    </html>

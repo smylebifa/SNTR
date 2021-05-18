@@ -76,7 +76,7 @@
         <div class="col-12">
 
         <p class="h4" style="text-align: center">Поставщики компании "' . $name_of_company .'"</p><br>
-        <div class="table-responsive" style="overflow-y: auto; height: 600px;">
+        <div class="table-responsive" style="overflow-y: auto; min-height:200px; max-height: 600px;">
         <figure class="wp-block-table">
         <table class="table table-hover table-bordered" style="text-align:center">
         <thead class="thead-dark">
