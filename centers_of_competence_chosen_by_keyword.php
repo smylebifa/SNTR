@@ -82,7 +82,7 @@
         <div class="col-12">
 
         <p class="h4" style="text-align: center">Центры компетенций</p><br>
-        <div class="table-responsive" style="overflow-y: scroll; height: 480px;">
+        <div class="table-responsive" style="overflow-y: auto; height: 600px;">
         <figure class="wp-block-table">
         <table class="table table-hover table-bordered" style="text-align:center">
         <thead class="thead-dark">

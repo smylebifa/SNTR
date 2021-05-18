@@ -149,8 +149,8 @@
       if ($is_show === 1) {
 
         if ($sql_select) {
-          
-          if ($country === "Россия" or ($name_of_competency === '' and $country === '' and $priority === '')) {
+
+          if ($country === "Россия") {
             echo '
             <div class="row">
             <div class="col-6">
@@ -188,7 +188,6 @@
           }
 
           echo '
-          
           <div class="row">
           <div class="col-12"><p></p></div>
           </div>
@@ -206,7 +205,10 @@
           <div class="col-12">
 
           <p class="h4" style="text-align: center">Центры компетенций</p><br>
-          <div class="table-responsive" style="overflow-y: scroll; height: 480px;">
+          
+          <div style = "height: 800px;">
+          <div class="table-responsive h-75" style="overflow-y: auto;">
+          
           <figure class="wp-block-table">
           <table class="table table-hover table-bordered" style="text-align:center;">
           <thead class="thead-dark">
@@ -233,31 +235,24 @@
           </table>
           </figure>
           </div>
+
+          <div class="h-25">
+          
+          <div class="row">
+          <div class="col-12"><p></p></div>
           </div>
-          </div>';
 
-        }
+          <div class="row">
+          <div class="col-12"><p></p></div>
+          </div>
 
-        else {
-
-          echo '<p class="h4" align="center"><br><br><br><br>Записей не найдено</p>';
-        }
-      }
-
-      ?>
-
-
-      <div class="row">
-        <div class="col-12"><p></p></div>
-      </div>
-
-      <div class="row">
-        <div class="col-12"><p></p></div>
-      </div>
-
-      <div class="row">
-        <div class="col-3"></div>
-        <div class="col-6" style="text-align:center">
+          <div class="row">
+          <div class="col-12"><p></p></div>
+          </div>
+          
+          <div class="row">
+          <div class="col-3"></div>
+          <div class="col-6" style="text-align:center">
           <a href="/search-centers" role="button" style="
           text-decoration: none;
           background: #ff6a3e;
@@ -269,16 +264,25 @@
           padding: 12px 25px;
           text-transform: uppercase;
           font-weight: 500; font: inherit; cursor: pointer;">Поиск центров компетенций</a>
-        </div>
-        <div class="col-3"></div>
-      </div>
+          </div>
+          <div class="col-3"></div>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>';
+        }
 
-      <div class="row">
-        <div class="col-12"><p><br><br></p></div>
-      </div>
+        else {
+          echo '<p class="h4" align="center"><br><br><br><br>Записей не найдено</p>';
+        }
+      }
 
-      <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
-      <script src="/tooltip.js"></script>
+      ?>
 
-    </body>
-    </html>
+    <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/tooltip.js"></script>
+
+  </body>
+  </html>
