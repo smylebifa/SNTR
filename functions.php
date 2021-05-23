@@ -118,3 +118,25 @@ function logout_page() {
     exit;  
 }  
 add_action('wp_logout','logout_page');
+
+function wp_loginout( $redirect = '', $echo = true ) {
+  if ( ! is_user_logged_in() ) {
+    $link = '<a href="' . esc_url( wp_login_url( $redirect ) ) . '">' . __( 'Log in' ) . '</a>';
+  } else {
+    $link = '<a href="' . esc_url( wp_logout_url( $redirect ) ) . '">' . __( 'Log out' ) . '</a>';
+  }
+
+  if ( $echo ) {
+    /**
+     * Filters the HTML output for the Log In/Log Out link.
+     *
+     * @since 1.5.0
+     *
+     * @param string $link The HTML link content.
+     */
+    echo apply_filters( 'loginout', $link );
+  } else {
+    /** This filter is documented in wp-includes/general-template.php */
+    return apply_filters( 'loginout', $link );
+  }
+}
