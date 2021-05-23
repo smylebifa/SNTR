@@ -35,9 +35,6 @@
     $region = $_GET['region'];
     
     // Методы для защиты от sql инъекций...
-    sanitize_text_field($name_of_center);
-    sanitize_text_field($name_of_competency);
-    sanitize_text_field($priority);
     sanitize_text_field($district);
     sanitize_text_field($region);
 
@@ -60,8 +57,7 @@
           FROM ЦентрыКомпетенций 
           INNER JOIN РоссийскиеЦентры
           ON ЦентрыКомпетенций.НазваниеЦентра = РоссийскиеЦентры.НазваниеЦентра
-          WHERE РоссийскиеЦентры.Регион = %s
-          AND ЦентрыКомпетенций.Приоритет = %s", [$region, $priority]));
+          WHERE РоссийскиеЦентры.Регион = %s", [$region]));
       }
     }
   // Поиск по округу...
@@ -88,7 +84,7 @@
           INNER JOIN РоссийскиеЦентры
           ON ЦентрыКомпетенций.НазваниеЦентра = РоссийскиеЦентры.НазваниеЦентра
           WHERE РоссийскиеЦентры.Округ = %s
-          AND ЦентрыКомпетенций.Приоритет = %s", [$district, $priority]));
+          AND РоссийскиеЦентры.Регион = %s", [$district, $region]));
       }
     }
 

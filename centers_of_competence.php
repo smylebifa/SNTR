@@ -156,7 +156,7 @@
             <div class="col-6">
             <div class="search_box">
             <fieldset style="text-align: left">
-            <form method="get" action="/centers_of_competence_chosen_by_district.php">
+            <form method="get" action="/centers_of_competence_chosen_by_district.php" target="_blank">
 
             <div class="search_box">
             <label for="district_label">Федеральный округ:</label><br>

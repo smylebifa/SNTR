@@ -25,7 +25,7 @@
 
       global $wpdb;
 
-      // Метод для отображения ошибки на странице...
+      // Метод для отображения ошибок на странице...
       // $wpdb->show_errors(true);
 
       if(!empty($wpdb->error)) echo 'Не удалось подключиться';
@@ -33,7 +33,7 @@
       // Получение параметров...
       $name_of_connected_center = $_GET['name_of_connected_center'];
 
-    // Методы для защиты от sql инъекций...
+      // Метод защиты от sql инъекций...
       sanitize_text_field($name_of_connected_center);
 
 
@@ -98,10 +98,10 @@
 
           foreach ($sql_select as $row) {
             echo '<tr> 
-            <td>' . $row->НазваниеЦентра . '</td>
-            <td>' . $row->Страны . '</td>
-            <td>' . $row->СвязанныеЦентры . '</td> 
-            <td>' . $row->ПереченьКомпетенций . '</td></tr>';
+            <td style="color: rgb(0, 123, 255);">' . $row->НазваниеЦентра . '</td>
+            <td style="color: rgb(0, 123, 255);">' . $row->Страны . '</td>
+            <td style="color: rgb(0, 123, 255);">' . $row->СвязанныеЦентры . '</td> 
+            <td style="color: rgb(0, 123, 255);">' . $row->ПереченьКомпетенций . '</td></tr>';
           }
 
           echo '
