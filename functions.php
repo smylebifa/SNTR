@@ -84,59 +84,22 @@ function ameya_parent_theme_options() {
 add_action( 'after_switch_theme', 'ameya_parent_theme_options' );
 
 
-// Добавляем редирект на главную страницу...
-function redirect_login_page() {  
-    $login_page  = home_url( '/' );  
-    $page_viewed = basename($_SERVER['REQUEST_URI']);  
-  
-    if( $page_viewed == "wp-login.php" && $_SERVER['REQUEST_METHOD'] == 'GET') {  
-        wp_redirect($login_page);  
-        exit;  
-    }  
-}  
-add_action('init','redirect_login_page');
+// Отображаем определенное меню для зарегистрированных и не зарегистрированнных пользователей...
+function my_wp_nav_menu_args( $args = '' ) {
+ 
+if( is_user_logged_in() ) {
+$args['menu'] = 'Menu for registered users';
+} else {
+$args['menu'] = 'Menu';
+}
+return $args;
+}
+add_filter( 'wp_nav_menu_args', 'my_wp_nav_menu_args' );
 
-function login_failed() {  
-    $login_page  = home_url( '/login' );  
-    wp_redirect( $login_page . '?login=failed' );  
-    exit;  
-}  
-add_action( 'wp_login_failed', 'login_failed' );  
-  
-function verify_username_password( $user, $username, $password ) {  
-    $login_page  = home_url( '/login' );  
-    if( $username == "" || $password == "" ) {  
-        wp_redirect( $login_page . "?login=empty" );  
-        exit;  
-    }  
-}  
-add_filter( 'authenticate', 'verify_username_password', 1, 3);
 
 function logout_page() {  
-    $login_page  = home_url( '/login/' );  
-    wp_redirect( $login_page . "?login=false" );  
+    $login_page  = home_url( '/' );  
+    wp_redirect( $login_page );  
     exit;  
 }  
 add_action('wp_logout','logout_page');
-
-function wp_loginout( $redirect = '', $echo = true ) {
-  if ( ! is_user_logged_in() ) {
-    $link = '<a href="' . esc_url( wp_login_url( $redirect ) ) . '">' . __( 'Log in' ) . '</a>';
-  } else {
-    $link = '<a href="' . esc_url( wp_logout_url( $redirect ) ) . '">' . __( 'Log out' ) . '</a>';
-  }
-
-  if ( $echo ) {
-    /**
-     * Filters the HTML output for the Log In/Log Out link.
-     *
-     * @since 1.5.0
-     *
-     * @param string $link The HTML link content.
-     */
-    echo apply_filters( 'loginout', $link );
-  } else {
-    /** This filter is documented in wp-includes/general-template.php */
-    return apply_filters( 'loginout', $link );
-  }
-}
