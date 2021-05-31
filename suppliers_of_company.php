@@ -47,9 +47,27 @@
     else {
 
       $sql_select = $wpdb->get_results($wpdb->prepare("
-        SELECT DISTINCT НазваниеПоставщика, Страна, НазваниеКомпетенции
+        SELECT ПоставщикиКомпаний.НазваниеПоставщика, ПоставщикиКомпаний.Страна,  
+        ПоставщикиКомпаний.НазваниеКомпетенции AS НазваниеКомпетенции, 
+        КодыКомпетенций.НазваниеКомпетенции AS ПодсказкаКомпетенции
         FROM ПоставщикиКомпаний
-        WHERE НазваниеЦентра = %s", [$name_of_company]));
+
+        LEFT JOIN КлючевыеСлова
+        ON ПоставщикиКомпаний.НазваниеКомпетенции = КлючевыеСлова.КлючевоеСлово
+
+        LEFT JOIN Keywords
+        ON ПоставщикиКомпаний.НазваниеКомпетенции = Keywords.Keyword
+
+        LEFT JOIN КодыКомпетенций
+        ON ПоставщикиКомпаний.НазваниеКомпетенции = КодыКомпетенций.НазваниеКомпетенции
+        OR (КлючевыеСлова.КодКомпетенции = КодыКомпетенций.КодКомпетенции
+        OR Keywords.КодКомпетенции = КодыКомпетенций.КодКомпетенции)
+
+        WHERE НазваниеЦентра = %s
+
+        GROUP BY 
+        ПоставщикиКомпаний.НазваниеПоставщика, ПоставщикиКомпаний.Страна,  
+        ПоставщикиКомпаний.НазваниеКомпетенции", [$name_of_company]));
     }
     
     // Если пользователь ввел какие-то значения для поиска...
@@ -91,9 +109,11 @@
 
         foreach ($sql_select as $row) {
           echo '<tr> 
-          <td style="color: rgb(0, 123, 255);">' . $row->НазваниеПоставщика . '</td>
-          <td style="color: rgb(0, 123, 255);">' . $row->Страна . '</td>
-          <td style="color: rgb(0, 123, 255);">' . $row->НазваниеКомпетенции . '</td></tr>';
+          <td> <a href="/info_about_centers.php?name_of_center=' . $row->НазваниеПоставщика . '" target="_blank">' . $row->НазваниеПоставщика. '</a></td>
+
+          <td> <a href="/centers_of_competence.php?name_of_competency=&country=' . $row->Страна . '&priority=" target="_blank">' . $row->Страна . '</a></td>
+
+          <td> <a href="/centers_of_competence.php?name_of_competency=' . $row->НазваниеКомпетенции . '&country=&priority=" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="' . $row->ПодсказкаКомпетенции . '">' . $row->НазваниеКомпетенции . '</a></td></tr>';
         }
 
         echo '
@@ -112,42 +132,42 @@
       }
     }
 
-      ?>
+    ?>
 
 
 
-      <div class="row">
-        <div class="col-12"><p></p></div>
+    <div class="row">
+      <div class="col-12"><p></p></div>
+    </div>
+
+    <div class="row">
+      <div class="col-12"><p></p></div>
+    </div>
+
+    <div class="row">
+      <div class="col-3"></div>
+      <div class="col-6" style="text-align:center">
+        <a href="/company-suppliers" role="button" style="
+        text-decoration: none;
+        background: #ff6a3e;
+        border: medium none;
+        color: #fff;
+        border-radius: 50px;
+        font-size: 15px;
+        line-height: 1.5;
+        padding: 12px 25px;
+        text-transform: uppercase;
+        font-weight: 500; font: inherit; cursor: pointer;">Поставщики компаний</a>
       </div>
+      <div class="col-3"></div>
+    </div>
 
-      <div class="row">
-        <div class="col-12"><p></p></div>
-      </div>
+    <div class="row">
+      <div class="col-12"><p><br><br></p></div>
+    </div>
 
-      <div class="row">
-        <div class="col-3"></div>
-        <div class="col-6" style="text-align:center">
-          <a href="/company-suppliers" role="button" style="
-          text-decoration: none;
-          background: #ff6a3e;
-          border: medium none;
-          color: #fff;
-          border-radius: 50px;
-          font-size: 15px;
-          line-height: 1.5;
-          padding: 12px 25px;
-          text-transform: uppercase;
-          font-weight: 500; font: inherit; cursor: pointer;">Поставщики компаний</a>
-        </div>
-        <div class="col-3"></div>
-      </div>
+    <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/tooltip.js"></script>
 
-      <div class="row">
-        <div class="col-12"><p><br><br></p></div>
-      </div>
-
-      <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
-      <script src="/tooltip.js"></script>
-
-    </body>
-    </html>
+  </body>
+  </html>
