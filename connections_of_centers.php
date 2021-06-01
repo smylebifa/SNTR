@@ -52,7 +52,7 @@
 
       else {
         $sql_select = $wpdb->get_results($wpdb->prepare("
-          SELECT DISTINCT НазваниеЦентра, Страны, ПереченьКомпетенций, СвязанныеЦентры 
+          SELECT DISTINCT НазваниеЦентра, Страна, СвязанныйЦентр, НазваниеКомпетенции
           FROM СвязанныеВедущиеЦентры
           WHERE НазваниеЦентра = %s", $name_of_connected_center));
       }
@@ -89,19 +89,34 @@
           <thead class="thead-dark">
           <tr>
           <th scope="col">Название центра</th>
-          <th scope="col">Страны</th>
+          <th scope="col">Страна</th>
           <th scope="col">Связанные центры</th>
-          <th scope="col">Перечень компетенций</th>
+          <th scope="col">Название компетенции</th>
           </tr>
           </thead>
           <tbody>';
 
+          $lastLinkedCenter = '';
+
           foreach ($sql_select as $row) {
-            echo '<tr> 
-            <td style="color: rgb(0, 123, 255);">' . $row->НазваниеЦентра . '</td>
-            <td style="color: rgb(0, 123, 255);">' . $row->Страны . '</td>
-            <td style="color: rgb(0, 123, 255);">' . $row->СвязанныеЦентры . '</td> 
-            <td style="color: rgb(0, 123, 255);">' . $row->ПереченьКомпетенций . '</td></tr>';
+            if ($row->СвязанныйЦентр === $lastLinkedCenter) {
+              echo ', <a href="/centers_of_competence.php?name_of_competency=' . $row->НазваниеКомпетенции . '&country=&priority=" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="' . $row->ПодсказкаКомпетенции . '">' . $row->НазваниеКомпетенции;
+            }
+            else {
+              echo '
+              </td></tr>
+              <tr>
+              <td> <a href="/info_about_centers.php?name_of_center=' . $row->НазваниеЦентра . '" target="_blank">' . $row->НазваниеЦентра . '</a></td>
+
+            <td> <a href="/centers_of_competence.php?name_of_competency=&country=' . $row->Страна . '&priority=" target="_blank">' . $row->Страна . '</a></td>
+
+            <td> <a href="/info_about_centers.php?name_of_center=' . $row->СвязанныйЦентр . '" target="_blank">' . $row->СвязанныйЦентр . '</a></td>
+            
+            <td> <a href="/centers_of_competence.php?name_of_competency=' . $row->НазваниеКомпетенции . '&country=&priority=" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="' . $row->ПодсказкаКомпетенции . '">' . $row->НазваниеКомпетенции;
+            }
+
+            $lastLinkedCenter = $row->СвязанныйЦентр;
+
           }
 
           echo '
