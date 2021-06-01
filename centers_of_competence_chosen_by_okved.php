@@ -275,30 +275,53 @@
       <tbody>';
 
 
-      foreach ($sql_select as $row) {
-        echo '<tr> 
-        <td> <a href="/info_about_centers.php?name_of_center=' . $row->НазваниеЦентра . '" target="_blank">' . $row->НазваниеЦентра . '</a></td>
+      $lastCenter = '';
+          $lastCountry= '';
+          $lastCompetence = '';
 
-        <td> <a href="/centers_of_competence.php?name_of_competency=&country=' . $row->Страна . '&priority=" target="_blank">' . $row->Страна . '</a></td>
+          foreach ($sql_select as $row) {
+            if ($row->НазваниеЦентра === $lastCenter &&
+                $row->Страна === $lastCountry &&
+                $row->НазваниеКомпетенции === $lastCompetence) {
+              echo ', <a href="/centers_of_competence.php?name_of_competency=&country=&priority=' . $row->Приоритет . '" target="_blank">' . $row->Приоритет;
+            }
 
-        <td> <a href="/centers_of_competence.php?name_of_competency=' . $row->НазваниеКомпетенции . '&country=&priority=" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="' . $row->ПодсказкаКомпетенции . '">' . $row->НазваниеКомпетенции . '</a></td>
+            else {
+              if($lastCompetence != '') {
+                echo '</td></tr>';
+              }
 
-        <td> <a href="/centers_of_competence.php?name_of_competency=&country=&priority=' . $row->Приоритет . '" target="_blank">' . $row->Приоритет . '</a></td> </tr>';
+              echo '
+              <tr>
+              <td> <a href="/info_about_centers.php?name_of_center=' . $row->НазваниеЦентра . '" target="_blank">' . $row->НазваниеЦентра . '</a></td>
+
+              <td> <a href="/centers_of_competence.php?name_of_competency=&country=' . $row->Страна . '&priority=" target="_blank">' . $row->Страна . '</a></td>
+
+              <td> <a href="/centers_of_competence.php?name_of_competency=' . $row->НазваниеКомпетенции . '&country=&priority=" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="' . $row->ПодсказкаКомпетенции . '">' . $row->НазваниеКомпетенции . '</a></td>
+
+              <td> <a href="/centers_of_competence.php?name_of_competency=&country=&priority=' . $row->Приоритет . '" target="_blank">' . $row->Приоритет . '</a>';
+            }
+
+            $lastCompetence = $row->НазваниеКомпетенции;
+            $lastCenter = $row->НазваниеЦентра;
+            $lastCountry = $row->Страна;
+
+          }
+
+          echo '
+          </tbody>
+          </table>
+          </figure>
+          </div>
+          </div>
+          </div>';
+
+        }
+
+        else {
+          echo '<p class="h4" align="center"><br><br><br><br>Записей не найдено</p>';
+        }
       }
-
-      echo '
-      </tbody>
-      </table>
-      </figure>
-      </div>
-      </div>
-      </div>';
-    }
-
-    else {
-      echo '<p class="h4" align="center"><br><br><br><br>Записей не найдено</p>';
-    }
-  }
 
   ?>
 

@@ -52,9 +52,30 @@
 
       else {
         $sql_select = $wpdb->get_results($wpdb->prepare("
-          SELECT DISTINCT НазваниеЦентра, Страна, СвязанныйЦентр, НазваниеКомпетенции
+          SELECT СвязанныеВедущиеЦентры.НазваниеЦентра, СвязанныеВедущиеЦентры.Страна, 
+          СвязанныеВедущиеЦентры.СвязанныйЦентр, 
+          СвязанныеВедущиеЦентры.НазваниеКомпетенции AS НазваниеКомпетенции, 
+          КодыКомпетенций.НазваниеКомпетенции AS ПодсказкаКомпетенции
+          
           FROM СвязанныеВедущиеЦентры
-          WHERE НазваниеЦентра = %s", $name_of_connected_center));
+
+          LEFT JOIN КлючевыеСлова
+          ON СвязанныеВедущиеЦентры.НазваниеКомпетенции = КлючевыеСлова.КлючевоеСлово
+
+          LEFT JOIN Keywords
+          ON СвязанныеВедущиеЦентры.НазваниеКомпетенции = Keywords.Keyword
+
+          LEFT JOIN КодыКомпетенций
+          ON СвязанныеВедущиеЦентры.НазваниеКомпетенции = КодыКомпетенций.НазваниеКомпетенции
+          OR (КлючевыеСлова.КодКомпетенции = КодыКомпетенций.КодКомпетенции
+          OR Keywords.КодКомпетенции = КодыКомпетенций.КодКомпетенции)
+
+          WHERE СвязанныеВедущиеЦентры.НазваниеЦентра = %s
+
+          GROUP BY 
+          СвязанныеВедущиеЦентры.НазваниеЦентра, СвязанныеВедущиеЦентры.Страна, 
+          СвязанныеВедущиеЦентры.СвязанныйЦентр, 
+          СвязанныеВедущиеЦентры.НазваниеКомпетенции", $name_of_connected_center));
       }
 
 
@@ -96,26 +117,40 @@
           </thead>
           <tbody>';
 
+          $lastCenter = '';
+          $lastCountry= '';
           $lastLinkedCenter = '';
 
           foreach ($sql_select as $row) {
-            if ($row->СвязанныйЦентр === $lastLinkedCenter) {
-              echo ', <a href="/centers_of_competence.php?name_of_competency=' . $row->НазваниеКомпетенции . '&country=&priority=" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="' . $row->ПодсказкаКомпетенции . '">' . $row->НазваниеКомпетенции;
+
+            if ($row->СвязанныйЦентр === $lastLinkedCenter && 
+              $row->НазваниеЦентра === $lastCenter &&
+              $row->Страна === $lastCountry) {
+
+              echo ', <a href="/centers_of_competence.php?name_of_competency=' . $row->НазваниеКомпетенции . '&country=&priority=" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="' . $row->ПодсказкаКомпетенции . '">' . $row->НазваниеКомпетенции . '</a>';
             }
+
             else {
+
+              if($lastLinkedCenter != '') {
+                echo '</td></tr>';
+              }
+
               echo '
               </td></tr>
               <tr>
               <td> <a href="/info_about_centers.php?name_of_center=' . $row->НазваниеЦентра . '" target="_blank">' . $row->НазваниеЦентра . '</a></td>
 
-            <td> <a href="/centers_of_competence.php?name_of_competency=&country=' . $row->Страна . '&priority=" target="_blank">' . $row->Страна . '</a></td>
+              <td> <a href="/centers_of_competence.php?name_of_competency=&country=' . $row->Страна . '&priority=" target="_blank">' . $row->Страна . '</a></td>
 
-            <td> <a href="/info_about_centers.php?name_of_center=' . $row->СвязанныйЦентр . '" target="_blank">' . $row->СвязанныйЦентр . '</a></td>
-            
-            <td> <a href="/centers_of_competence.php?name_of_competency=' . $row->НазваниеКомпетенции . '&country=&priority=" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="' . $row->ПодсказкаКомпетенции . '">' . $row->НазваниеКомпетенции;
+              <td> <a href="/info_about_centers.php?name_of_center=' . $row->СвязанныйЦентр . '" target="_blank">' . $row->СвязанныйЦентр . '</a></td>
+
+              <td> <a href="/centers_of_competence.php?name_of_competency=' . $row->НазваниеКомпетенции . '&country=&priority=" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="' . $row->ПодсказкаКомпетенции . '">' . $row->НазваниеКомпетенции . '</a>';
             }
 
             $lastLinkedCenter = $row->СвязанныйЦентр;
+            $lastCenter = $row->НазваниеЦентра;
+            $lastCountry = $row->Страна;
 
           }
 

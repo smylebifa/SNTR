@@ -106,14 +106,32 @@
         </thead>
         <tbody>';
 
+        $lastCenter = '';
+        $lastCountry= '';
 
         foreach ($sql_select as $row) {
-          echo '<tr> 
-          <td> <a href="/info_about_centers.php?name_of_center=' . $row->НазваниеПоставщика . '" target="_blank">' . $row->НазваниеПоставщика. '</a></td>
+          if ($row->НазваниеПоставщика === $lastCenter &&
+            $row->Страна === $lastCountry) {
 
-          <td> <a href="/centers_of_competence.php?name_of_competency=&country=' . $row->Страна . '&priority=" target="_blank">' . $row->Страна . '</a></td>
+            echo ', <a href="/centers_of_competence.php?name_of_competency=' . $row->НазваниеКомпетенции . '&country=&priority=" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="' . $row->ПодсказкаКомпетенции . '">' . $row->НазваниеКомпетенции . '</a>';
+          }
 
-          <td> <a href="/centers_of_competence.php?name_of_competency=' . $row->НазваниеКомпетенции . '&country=&priority=" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="' . $row->ПодсказкаКомпетенции . '">' . $row->НазваниеКомпетенции . '</a></td></tr>';
+          else {
+            if($lastCountry != '') {
+              echo '</td></tr>';
+            }
+
+            echo '<tr> 
+            <td> <a href="/info_about_centers.php?name_of_center=' . $row->НазваниеПоставщика . '" target="_blank">' . $row->НазваниеПоставщика. '</a></td>
+
+            <td> <a href="/centers_of_competence.php?name_of_competency=&country=' . $row->Страна . '&priority=" target="_blank">' . $row->Страна . '</a></td>
+
+            <td> <a href="/centers_of_competence.php?name_of_competency=' . $row->НазваниеКомпетенции . '&country=&priority=" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="' . $row->ПодсказкаКомпетенции . '">' . $row->НазваниеКомпетенции . '</a>';
+          }
+
+          $lastCenter = $row->НазваниеПоставщика;
+          $lastCountry = $row->Страна;
+
         }
 
         echo '
