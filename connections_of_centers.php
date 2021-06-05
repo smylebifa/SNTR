@@ -112,7 +112,7 @@
           <th scope="col">Название центра</th>
           <th scope="col">Страна</th>
           <th scope="col">Связанные центры</th>
-          <th scope="col">Название компетенции</th>
+          <th scope="col">Названия компетенций</th>
           </tr>
           </thead>
           <tbody>';

@@ -336,7 +336,7 @@
   <div class="row">
     <div class="col-3"></div>
     <div class="col-6" style="text-align:center">
-      <a href="/search-centers-by-okved" role="button" style="
+      <a href="/search-competence-and-centers-by-okved" role="button" style="
       text-decoration: none;
       background: #ff6a3e;
       border: medium none;
@@ -346,7 +346,7 @@
       line-height: 1.5;
       padding: 12px 25px;
       text-transform: uppercase;
-      font-weight: 500; font: inherit; cursor: pointer;">Поиск центров по ОКВЭД</a>
+      font-weight: 500; font: inherit; cursor: pointer;">Поиск компетенций, центров по ОКВЭД</a>
     </div>
     <div class="col-3"></div>
   </div>
