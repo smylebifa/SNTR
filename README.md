@@ -1,1 +1,1 @@
-# SNTR - site of science technology development
+# СНТР - сайт научно-технологического развития
